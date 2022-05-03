@@ -20,6 +20,7 @@
         />
 
     <TextView
+        android:id="@+id/tv_movieCIandT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/movie_database"
@@ -27,7 +28,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="425dp"
+        android:layout_marginTop="440dp"
         android:textSize="20dp"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

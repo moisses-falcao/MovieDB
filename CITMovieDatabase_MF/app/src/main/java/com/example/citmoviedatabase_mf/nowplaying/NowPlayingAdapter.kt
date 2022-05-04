@@ -1,10 +1,13 @@
 package com.example.citmoviedatabase_mf.nowplaying
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citmoviedatabase_mf.databinding.MovieModelBinding
+import com.example.citmoviedatabase_mf.details.DetailsActivity
 import com.example.citmoviedatabase_mf.models.MovieModel
+import kotlinx.coroutines.NonDisposableHandle.parent
 
 class NowPlayingAdapter(private val movies: List<MovieModel>) : RecyclerView.Adapter<NowPlayingAdapter.ViewHolder>() {
 
@@ -22,6 +25,11 @@ class NowPlayingAdapter(private val movies: List<MovieModel>) : RecyclerView.Ada
                 binding.tvMovieTitle.text = title
                 binding.tvMovieGenreAndDate.text = genres + " • " + releaseDate + " "
                 binding.tvMovieVoteAverage.text = "|" + voteAverage.toString()
+
+                binding.ivMoviePoster.setOnClickListener {
+                    val intent = Intent(it.context, DetailsActivity::class.java)
+                        it.context.startActivity(intent)
+                }
             }
         }
     }

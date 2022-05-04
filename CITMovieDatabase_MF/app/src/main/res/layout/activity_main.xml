@@ -28,25 +28,23 @@
                 android:text="CI&amp;T Movie DB"
                 android:textColor="@color/blue_dark"
                 android:textSize="32dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/ic_search"
                 android:layout_marginEnd="16dp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_search"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.appcompat.widget.Toolbar>
 
-    <com.google.android.material.tabs.TabLayout
+ <com.google.android.material.tabs.TabLayout
         android:id="@+id/tl_mainTabLayout"
         android:layout_width="339dp"
         android:layout_height="32dp"
@@ -57,34 +55,17 @@
         app:tabBackground="@drawable/tabs_selector"
         app:tabIndicator="@null"
         app:tabSelectedTextColor="@color/white"
-        app:tabTextColor="@color/blue_dark">
+        app:tabTextColor="@color/blue_dark"/>
 
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/ti_nowPlayig"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Now Playing" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/ti_comingSoon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Coming Soon" />
-
-    </com.google.android.material.tabs.TabLayout>
-
-    <fragment
-        android:id="@+id/fcv_mainFragmentContainerView"
-        android:layout_width="match_parent"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp2_mainViewPager"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:name="com.example.citmoviedatabase_mf.nowplaying.NowPlayingFragment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tl_mainTabLayout"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tl_mainTabLayout"
+        android:padding="16dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

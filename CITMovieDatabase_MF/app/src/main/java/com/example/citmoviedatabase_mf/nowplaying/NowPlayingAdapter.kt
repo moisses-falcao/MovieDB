@@ -4,12 +4,14 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.citmoviedatabase_mf.databinding.MovieModelBinding
 import com.example.citmoviedatabase_mf.details.DetailsActivity
 import com.example.citmoviedatabase_mf.models.MovieModel
 import kotlinx.coroutines.NonDisposableHandle.parent
+import java.lang.System.load
 
-class NowPlayingAdapter(private val movies: List<MovieModel>) : RecyclerView.Adapter<NowPlayingAdapter.ViewHolder>() {
+class NowPlayingAdapter(var movies: List<MovieModel>) : RecyclerView.Adapter<NowPlayingAdapter.ViewHolder>() {
 
     class ViewHolder (val binding: MovieModelBinding) : RecyclerView.ViewHolder(binding.root){}
 
@@ -21,14 +23,15 @@ class NowPlayingAdapter(private val movies: List<MovieModel>) : RecyclerView.Ada
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             with(movies[position]){
-                binding.ivMoviePoster.setImageResource(posterPath)
+                Glide.with(binding.ivMoviePoster).load("https://image.tmdb.org/t/p/w500" + posterPath).into(binding.ivMoviePoster)
                 binding.tvMovieTitle.text = title
-                binding.tvMovieGenreAndDate.text = genres + " • " + releaseDate + " "
+                binding.tvMovieGenreAndDate.text = " • " + releaseDate + " " //Concatenar genero
                 binding.tvMovieVoteAverage.text = "|" + voteAverage.toString()
 
                 binding.ivMoviePoster.setOnClickListener {
                     val intent = Intent(it.context, DetailsActivity::class.java)
-                        it.context.startActivity(intent)
+                    intent.putExtra(DetailsActivity.MOVIE_ID, id)
+                    it.context.startActivity(intent)
                 }
             }
         }

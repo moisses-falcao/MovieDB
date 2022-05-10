@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.citmoviedatabase_mf">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CITMovieDatabase_MF">
+        <activity
+            android:name=".details.dialogs.PhotosDialogActivity"
+            android:exported="false" />
+        <activity
+            android:name=".details.dialogs.CastAndCrewDialogActivity"
+            android:exported="false" />
         <activity
             android:name=".details.DetailsActivity"
             android:exported="false" />

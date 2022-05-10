@@ -1,5 +1,6 @@
 package com.example.citmoviedatabase_mf.filters
 
+import com.example.citmoviedatabase_mf.models.GenreModel
 import com.example.citmoviedatabase_mf.models.MovieModel
 
 class Filters {
@@ -11,7 +12,7 @@ class Filters {
         return list.sortedBy { it.releaseDate }
     }
 
-    private fun filtratPorGenero(genero: String, list: List<MovieModel>) : List<MovieModel> {
-        return list.filter { it.genres.contains(genero)}
-    }
+//    private fun filtratPorGenero(genero: List<GenreModel>, list: List<MovieModel>) : List<MovieModel> {
+//        return list.filter { it.genres.contains(genero)}
+//    }
 }

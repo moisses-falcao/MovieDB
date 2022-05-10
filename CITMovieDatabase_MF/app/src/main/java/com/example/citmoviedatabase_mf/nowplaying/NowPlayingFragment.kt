@@ -5,14 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.citmoviedatabase_mf.R
+import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
+import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService.Companion.movieDatabaseService
 import com.example.citmoviedatabase_mf.basefragment.BaseFragment
 import com.example.citmoviedatabase_mf.databinding.FragmentNowPlayingBinding
-import com.example.citmoviedatabase_mf.models.MovieModel
+import com.example.citmoviedatabase_mf.models.Results
+import retrofit2.Call
+import retrofit2.Response
+import javax.security.auth.callback.Callback
 
-class NowPlayingFragment : BaseFragment<FragmentNowPlayingBinding, NowPlayingViewModel>() {
+class NowPlayingFragment(override val viewModel: NowPlayingViewModel) : BaseFragment<FragmentNowPlayingBinding, NowPlayingViewModel>() {
 
-    override val viewModel: NowPlayingViewModel by viewModels()
 
     override fun getViewBinging(
         inflater: LayoutInflater,
@@ -22,17 +28,21 @@ class NowPlayingFragment : BaseFragment<FragmentNowPlayingBinding, NowPlayingVie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val nowPlayingList = listOf<MovieModel>(
-            MovieModel(0, 7.5,"John Wick 3","dsfgdfg",9.0, R.drawable.poster_john_wick, "fdgsf", "dfsgsdf", "22-10-2019", "Crime"),
-            MovieModel(1, 9.5,"Capitain Marvel","dsfgdfg",9.0, R.drawable.poster_capita_marvel, "fdgsf", "dfsgsdf", "16/11/2019", "Action"),
-            MovieModel(2, 6.7,"Alita","dsfgdfg",9.0, R.drawable.poster_alita, "fdgsf", "dfsgsdf", "30-09-2019", "Action"),
-            MovieModel(3, 9.5,"Avangers","dsfgdfg",9.0, R.drawable.poster_avangers, "fdgsf", "dfsgsdf", "01-12-2019", "Action")
-        )
+//        val call = movieDatabaseService.getAllMoviesNowPlaying()
+//        call.enqueue(object: Callback, retrofit2.Callback<Results>{
+//            override fun onResponse(call: Call<Results>, response: Response<Results>) {
+//                val nowPlayingAdapter = response.body()?.results?.let{
+//                    NowPlayingAdapter(it)
+//                }
+//                binding.rvNowPlaying.adapter = nowPlayingAdapter
+//            }
+//            override fun onFailure(call: Call<Results>, t: Throwable) {
+//
+//            }
+//        })
 
-        val nowPlayingAdapter by lazy{NowPlayingAdapter(nowPlayingList)}
+        viewModel.results.observe(viewLifecycleOwner, {binding.rvNowPlaying.adapter = NowPlayingAdapter(it.results)})
 
-        binding.rvNowPlaying.adapter = nowPlayingAdapter
+        viewModel.getAllMoviesNowPlaying()
     }
-
-
 }

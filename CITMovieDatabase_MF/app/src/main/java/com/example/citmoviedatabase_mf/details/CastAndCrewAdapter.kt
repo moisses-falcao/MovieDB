@@ -25,7 +25,7 @@ class CastAndCrewAdapter(private val castAndCrewList: List<CastAndCrewModel>) : 
             with(castAndCrewList[position]){
                 binding.ivActorPicture.setImageResource(actorPicture)
                 binding.tvActorName.text = actorName
-                binding.tvActorChar.text = "•••      " + actorChar
+                binding.tvActorChar.text = "•••      " + character
             }
         }
     }

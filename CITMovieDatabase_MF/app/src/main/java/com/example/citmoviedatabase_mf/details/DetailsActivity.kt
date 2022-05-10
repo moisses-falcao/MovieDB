@@ -1,25 +1,18 @@
 package com.example.citmoviedatabase_mf.details
 
-import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.view.Window
-import android.widget.Button
-import android.widget.TextView
+import android.view.View.GONE
 import com.bumptech.glide.Glide
 import com.example.citmoviedatabase_mf.R
 import com.example.citmoviedatabase_mf.activities.MainActivity
 import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
 import com.example.citmoviedatabase_mf.databinding.ActivityDetailsBinding
-import com.example.citmoviedatabase_mf.details.dialogs.CastAndCrewDialogActivity
 import com.example.citmoviedatabase_mf.models.CastAndCrewModel
 import com.example.citmoviedatabase_mf.models.MovieDetailsModel
-import com.example.citmoviedatabase_mf.models.MovieModel
 import com.example.citmoviedatabase_mf.models.PhotoModel
-import com.example.citmoviedatabase_mf.repository.Repository
 import retrofit2.Call
 import retrofit2.Response
 import javax.security.auth.callback.Callback
@@ -44,8 +37,9 @@ class DetailsActivity() : AppCompatActivity() {
         populatingPhotos()
 
         populatingDetails()
-    }
+        
 
+    }
 
     private fun populatingDetails() {
         movieId = intent.getIntExtra(MOVIE_ID, 0)
@@ -63,12 +57,40 @@ class DetailsActivity() : AppCompatActivity() {
                     binding.tvDuration.text = it.runtime?.let { it1 -> convertToHours(it1) }
                     binding.tvPopularuty.text = it.voteAverage.toString()
                     binding.tvFullSynopsis.text = it.overview
+
+                    var lista: MutableList<String> = mutableListOf()
+                    it.genres.forEach {
+                        lista.add(it.name)
+                    }
+                    var generos: String = ""
+                    lista.forEach {
+                        generos = generos + ", " + it
+                    }
+                    generos = generos.drop(2)
+                    binding.tvGenders.text = generos
+
+                    showMoreShowLess()
                 }
             }
             override fun onFailure(call: Call<MovieDetailsModel>, t: Throwable) {
 
             }
         })
+    }
+
+    private fun showMoreShowLess() {
+        if(binding.tvFullSynopsis.lineCount <= 4){
+            binding.tvShowMore.visibility = GONE
+        }
+        binding.tvShowMore.setOnClickListener {
+            if(binding.tvShowMore.text == "Show More"){
+                binding.tvFullSynopsis.maxLines = 1000
+                binding.tvShowMore.text = "Show Less"
+            } else{
+                binding.tvFullSynopsis.maxLines = 4
+                binding.tvShowMore.text = "Show More"
+            }
+        }
     }
 
     private fun convertToHours(runtime: Int): String {

@@ -1,8 +1,6 @@
 package com.example.citmoviedatabase_mf.apiservice
 
-import com.example.citmoviedatabase_mf.models.MovieDetailsModel
-import com.example.citmoviedatabase_mf.models.MovieModel
-import com.example.citmoviedatabase_mf.models.Results
+import com.example.citmoviedatabase_mf.models.*
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -19,6 +17,9 @@ interface MovieDatabaseService {
 
     @GET("{movie_id}?api_key=c98557c74b15f9613468213223de30bf")
     fun getMovieDetails(@Path("movie_id")todoId: String) : Call<MovieDetailsModel>
+
+    @GET("{movie_id}/credits?api_key=c98557c74b15f9613468213223de30bf")
+    fun getMovieCredits(@Path("movie_id")todoId: String) : Call<CastModel>
 
     companion object{
         val movieDatabaseService by lazy{

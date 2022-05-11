@@ -48,6 +48,7 @@ class DetailsActivity() : AppCompatActivity() {
     private fun viewAll() {
         binding.tvViewAllCastAndCrew.setOnClickListener {
             val intent = Intent(this, CastAndCrewDialogActivity::class.java)
+            intent.putExtra(CastAndCrewDialogActivity.MOVIE_ID_CAST_DIALOG, movieId)
             startActivity(intent)
         }
         binding.tvViewAllPhotos.setOnClickListener {

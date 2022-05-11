@@ -53,6 +53,7 @@ class DetailsActivity() : AppCompatActivity() {
         }
         binding.tvViewAllPhotos.setOnClickListener {
             val intent = Intent(this, PhotosDialogActivity::class.java)
+            intent.putExtra(PhotosDialogActivity.MOVIE_ID_PHOTO_DIALOG, movieId)
             startActivity(intent)
         }
     }

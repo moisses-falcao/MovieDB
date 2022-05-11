@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".details.dialogs.PhotosDialogActivity">
 
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tb_PhotoToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="Cast &amp; Crew"
+        android:background="@color/red"
+        app:titleTextColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_photos"
         android:layout_width="match_parent"
@@ -14,10 +27,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tb_PhotoToolbar"
+        android:layout_marginTop="64dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"
-        tools:listitem="@layout/photo_model"
+        tools:listitem="@layout/photo_model_to_dialog"
+        android:layout_marginStart="6dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

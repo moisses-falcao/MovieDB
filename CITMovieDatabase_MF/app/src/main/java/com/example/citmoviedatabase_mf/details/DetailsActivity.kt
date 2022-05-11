@@ -5,14 +5,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.citmoviedatabase_mf.R
 import com.example.citmoviedatabase_mf.activities.MainActivity
 import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
 import com.example.citmoviedatabase_mf.databinding.ActivityDetailsBinding
-import com.example.citmoviedatabase_mf.models.CastAndCrewModel
+import com.example.citmoviedatabase_mf.details.dialogs.CastAndCrewDialogActivity
+import com.example.citmoviedatabase_mf.details.dialogs.PhotosDialogActivity
+import com.example.citmoviedatabase_mf.models.CastModel
 import com.example.citmoviedatabase_mf.models.MovieDetailsModel
 import com.example.citmoviedatabase_mf.models.PhotoModel
+import com.example.citmoviedatabase_mf.models.SceneModel
 import retrofit2.Call
 import retrofit2.Response
 import javax.security.auth.callback.Callback
@@ -32,13 +36,24 @@ class DetailsActivity() : AppCompatActivity() {
 
         backNavigationDetailsIconFunction()
 
-        populatingCastAndCrew()
-
         populatingPhotos()
 
         populatingDetails()
-        
 
+        populatingCastAndCrew()
+
+        viewAll()
+    }
+
+    private fun viewAll() {
+        binding.tvViewAllCastAndCrew.setOnClickListener {
+            val intent = Intent(this, CastAndCrewDialogActivity::class.java)
+            startActivity(intent)
+        }
+        binding.tvViewAllPhotos.setOnClickListener {
+            val intent = Intent(this, PhotosDialogActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun populatingDetails() {
@@ -73,7 +88,7 @@ class DetailsActivity() : AppCompatActivity() {
                 }
             }
             override fun onFailure(call: Call<MovieDetailsModel>, t: Throwable) {
-
+                throw (IllegalAccessException(t.message))
             }
         })
     }
@@ -119,33 +134,38 @@ class DetailsActivity() : AppCompatActivity() {
     }
 
     fun populatingCastAndCrew(){
-        val castAndCrewList = listOf<CastAndCrewModel>(
-            CastAndCrewModel(0, R.drawable.cast_and_crew_keanu_reeves, "Keanu Reeves", "JOHN WICK"),
-            CastAndCrewModel(1, R.drawable.cast_and_crew_halle_barry, "Halle Barry", "SOFIA"),
-            CastAndCrewModel(2, R.drawable.cast_and_crew_laurence_fishburn, "Laurence Fishburn", "BOWERY KING"),
-            CastAndCrewModel(3, R.drawable.cast_and_crew_mark_dacascos, "Mark Dacascos", "ZERO"),
-            CastAndCrewModel(4, R.drawable.cast_and_crew_asia_kate_dillon, "Asia Kate Dillon", "ADJUDICATOR"),
-            CastAndCrewModel(5, R.drawable.cast_and_crew_lance_reddick, "Lance Reddick", "CHARON"),
-            CastAndCrewModel(6, R.drawable.cast_and_crew_angelica_huston, "Angelica Huston", "DIRECTOR"),
-            CastAndCrewModel(7, R.drawable.cast_and_crew_margaret_daly, "Margaret Daly", "OPERATOR"),
-            CastAndCrewModel(7, R.drawable.cast_and_crew_jerome_flynn, "Jerome Flynn", "BERRADA")
-        )
+        movieId = intent.getIntExtra(MOVIE_ID, 0)
+        val movieDatabaseService = MovieDatabaseService.movieDatabaseService
+        val call = movieDatabaseService.getMovieCredits(movieId.toString())
 
-        val castAndCrewAdapter by lazy { CastAndCrewAdapter(castAndCrewList) }
-
-        binding.rvCastAndCrew.adapter = castAndCrewAdapter
+        call.enqueue(object : Callback, retrofit2.Callback<CastModel> {
+            override fun onResponse(call: Call<CastModel>, response: Response<CastModel>) {
+                val castAndCrewAdapter = response.body()?.cast?.let {
+                    CastAndCrewAdapter(it)
+                }
+                binding.rvCastAndCrew.adapter = castAndCrewAdapter
+            }
+            override fun onFailure(call: Call<CastModel>, t: Throwable) {
+            }
+        })
     }
 
     fun populatingPhotos(){
-        val photoList = listOf<PhotoModel>(
-            PhotoModel(0, R.drawable.scene1_john_wick),
-            PhotoModel(1, R.drawable.scene2_john_wick),
-            PhotoModel(2, R.drawable.scene3_john_wick),
-        )
+        movieId = intent.getIntExtra(MOVIE_ID, 0)
+        val movieDatabaseService = MovieDatabaseService.movieDatabaseService
+        val call = movieDatabaseService.getMovieScenes(movieId.toString())
 
-        val photoAdapter by lazy { PhotoAdapter(photoList) }
-
-        binding.rvPhotos.adapter = photoAdapter
+        call.enqueue(object: Callback, retrofit2.Callback<SceneModel>{
+            override fun onResponse(call: Call<SceneModel>, response: Response<SceneModel>) {
+                val photoAdapter = response.body()?.scenarios?.let {
+                    PhotoAdapter(it)
+                }
+                binding.rvPhotos.layoutManager = LinearLayoutManager(this@DetailsActivity, LinearLayoutManager.HORIZONTAL, false)
+                binding.rvPhotos.adapter = photoAdapter
+            }
+            override fun onFailure(call: Call<SceneModel>, t: Throwable) {
+            }
+        })
     }
 
     companion object{

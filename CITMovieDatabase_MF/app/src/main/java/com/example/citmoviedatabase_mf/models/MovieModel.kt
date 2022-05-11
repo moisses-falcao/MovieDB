@@ -18,5 +18,6 @@ data class MovieModel(
     val overview: String,
     @SerializedName("release_date")
     val releaseDate: String,
-    val genres: List<GenreModel>
+    @SerializedName("genres_id")
+    val genres: List<Int>
 )

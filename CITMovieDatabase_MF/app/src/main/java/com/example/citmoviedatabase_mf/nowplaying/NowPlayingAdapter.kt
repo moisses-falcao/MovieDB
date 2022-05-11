@@ -1,12 +1,14 @@
 package com.example.citmoviedatabase_mf.nowplaying
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.citmoviedatabase_mf.databinding.MovieModelBinding
 import com.example.citmoviedatabase_mf.details.DetailsActivity
+import com.example.citmoviedatabase_mf.models.GenreModel
 import com.example.citmoviedatabase_mf.models.MovieModel
 import kotlinx.coroutines.NonDisposableHandle.parent
 import java.lang.System.load
@@ -25,7 +27,8 @@ class NowPlayingAdapter(var movies: List<MovieModel>) : RecyclerView.Adapter<Now
             with(movies[position]){
                 Glide.with(binding.ivMoviePoster).load("https://image.tmdb.org/t/p/w500" + posterPath).into(binding.ivMoviePoster)
                 binding.tvMovieTitle.text = title
-                binding.tvMovieGenreAndDate.text = " • " + releaseDate + " " //Concatenar genero
+
+                binding.tvMovieGenreAndDate.text = " • " + releaseDate//Concatenar genero
                 binding.tvMovieVoteAverage.text = "|" + voteAverage.toString()
 
                 binding.ivMoviePoster.setOnClickListener {

@@ -6,6 +6,7 @@
     app:cardCornerRadius="8dp"
     app:cardMaxElevation="8dp"
     android:layout_marginStart="8dp"
+    android:id="@+id/cv_scenePhoto"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout

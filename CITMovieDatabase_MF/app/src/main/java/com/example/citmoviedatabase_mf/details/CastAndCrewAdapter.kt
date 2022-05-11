@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.citmoviedatabase_mf.databinding.CastAndCrewModelBinding
 import com.example.citmoviedatabase_mf.databinding.MovieModelBinding
 import com.example.citmoviedatabase_mf.details.DetailsActivity
@@ -23,9 +24,9 @@ class CastAndCrewAdapter(private val castAndCrewList: List<CastAndCrewModel>) : 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             with(castAndCrewList[position]){
-                binding.ivActorPicture.setImageResource(actorPicture)
+                Glide.with(binding.ivActorPicture).load("https://image.tmdb.org/t/p/w342" + actorPicture).into(binding.ivActorPicture)
                 binding.tvActorName.text = actorName
-                binding.tvActorChar.text = "•••      " + character
+                binding.tvActorChar.text = "••• " + character
             }
         }
     }

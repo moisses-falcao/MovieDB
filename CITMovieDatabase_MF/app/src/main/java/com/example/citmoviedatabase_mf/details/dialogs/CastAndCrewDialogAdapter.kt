@@ -23,7 +23,6 @@ class CastAndCrewDialogAdapter(private val castAndCrewList: List<CastAndCrewMode
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             with(castAndCrewList[position]){
-                binding.ivActorPicture.setImageResource(actorPicture)
                 binding.tvActorName.text = actorName
                 binding.tvActorChar.text = "•••      " + character
             }

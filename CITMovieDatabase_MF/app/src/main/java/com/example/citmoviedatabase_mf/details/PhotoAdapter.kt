@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.citmoviedatabase_mf.databinding.MovieModelBinding
 import com.example.citmoviedatabase_mf.databinding.PhotoModelBinding
 import com.example.citmoviedatabase_mf.details.DetailsActivity
@@ -23,7 +24,7 @@ class PhotoAdapter(private val photos: List<PhotoModel>) : RecyclerView.Adapter<
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             with(photos[position]){
-                binding.ivScenePhoto.setImageResource(scenePhoto)
+                Glide.with(binding.ivScenePhoto).load("https://image.tmdb.org/t/p/w342" + scenePath).into(binding.ivScenePhoto)
             }
         }
     }

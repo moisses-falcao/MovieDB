@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class CastAndCrewModel(
     val id: Int,
     @SerializedName("profile_path")
-    val actorPicture : Int,
+    val actorPicture : String?,
     @SerializedName("name")
     val actorName: String,
     val character: String

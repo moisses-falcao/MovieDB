@@ -21,6 +21,9 @@ interface MovieDatabaseService {
     @GET("{movie_id}/credits?api_key=c98557c74b15f9613468213223de30bf")
     fun getMovieCredits(@Path("movie_id")todoId: String) : Call<CastModel>
 
+    @GET("{movie_id}/images?api_key=c98557c74b15f9613468213223de30bf")
+    fun getMovieScenes(@Path("movie_id")todoId: String) : Call<SceneModel>
+
     companion object{
         val movieDatabaseService by lazy{
             val movieDatabaseService = Retrofit.Builder()

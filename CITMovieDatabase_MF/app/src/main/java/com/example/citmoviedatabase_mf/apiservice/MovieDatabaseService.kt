@@ -1,5 +1,7 @@
 package com.example.citmoviedatabase_mf.apiservice
 
+import com.example.citmoviedatabase_mf.constants.Constants.API_KEY
+import com.example.citmoviedatabase_mf.constants.Constants.BASE_URL
 import com.example.citmoviedatabase_mf.models.*
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -9,25 +11,25 @@ import retrofit2.http.Path
 
 interface MovieDatabaseService {
 
-    @GET("now_playing?api_key=c98557c74b15f9613468213223de30bf")
+    @GET("now_playing?$API_KEY")
     fun getAllMoviesNowPlaying() : Call<Results>
 
-    @GET("upcoming?api_key=c98557c74b15f9613468213223de30bf")
+    @GET("upcoming?$API_KEY")
     fun getAllMoviesUpcoming() : Call<Results>
 
-    @GET("{movie_id}?api_key=c98557c74b15f9613468213223de30bf")
+    @GET("{movie_id}?$API_KEY")
     fun getMovieDetails(@Path("movie_id")todoId: String) : Call<MovieDetailsModel>
 
-    @GET("{movie_id}/credits?api_key=c98557c74b15f9613468213223de30bf")
+    @GET("{movie_id}/credits?$API_KEY")
     fun getMovieCredits(@Path("movie_id")todoId: String) : Call<CastModel>
 
-    @GET("{movie_id}/images?api_key=c98557c74b15f9613468213223de30bf")
+    @GET("{movie_id}/images?$API_KEY")
     fun getMovieScenes(@Path("movie_id")todoId: String) : Call<SceneModel>
 
     companion object{
         val movieDatabaseService: MovieDatabaseService by lazy{
             val movieDatabaseService = Retrofit.Builder()
-                .baseUrl("https://api.themoviedb.org/3/movie/").addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
                 .build()
 
             movieDatabaseService.create(MovieDatabaseService::class.java)

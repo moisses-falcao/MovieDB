@@ -1,16 +1,17 @@
 package com.example.citmoviedatabase_mf.upcoming
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
-import com.example.citmoviedatabase_mf.R
+import android.widget.Toast
+import androidx.lifecycle.Observer
 import com.example.citmoviedatabase_mf.basefragment.BaseFragment
 import com.example.citmoviedatabase_mf.databinding.FragmentComingSoonBinding
-import com.example.citmoviedatabase_mf.models.MovieModel
+import com.example.citmoviedatabase_mf.models.Results
 import com.example.citmoviedatabase_mf.nowplaying.NowPlayingAdapter
+import com.example.citmoviedatabase_mf.repository.comingsoon.ComingSoonStatus
+import retrofit2.Callback
 
 class ComingSoonFragment(override val viewModel: ComingSoonViewModel) : BaseFragment<FragmentComingSoonBinding, ComingSoonViewModel>() {
 
@@ -23,8 +24,22 @@ class ComingSoonFragment(override val viewModel: ComingSoonViewModel) : BaseFrag
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.results.observe(viewLifecycleOwner, {binding.rvComingSoon.adapter = NowPlayingAdapter(it.results)})
+        setupRecyclerView()
+    }
 
-        viewModel.getAllMoviesUpcoming()
+    private fun setupRecyclerView() {
+        viewModel.getAllMoviesUpcoming().observe(viewLifecycleOwner, Observer {
+            when(it){
+                is ComingSoonStatus.Success -> {
+                    binding.rvComingSoon.adapter = NowPlayingAdapter(it.listComingSoon.results)
+                }
+                is ComingSoonStatus.NotFound -> {
+                    Toast.makeText(context, "Não foi possível carregar a lista de filmes", Toast.LENGTH_LONG).show()
+                }
+                is ComingSoonStatus.Error -> {
+                    Toast.makeText(context, it.error.message, Toast.LENGTH_LONG)
+                }
+            }
+        })
     }
 }

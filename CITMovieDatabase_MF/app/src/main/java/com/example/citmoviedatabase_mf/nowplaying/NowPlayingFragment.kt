@@ -4,18 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import com.example.citmoviedatabase_mf.R
+import android.widget.Toast
+import androidx.lifecycle.Observer
 import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
-import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService.Companion.movieDatabaseService
 import com.example.citmoviedatabase_mf.basefragment.BaseFragment
 import com.example.citmoviedatabase_mf.databinding.FragmentNowPlayingBinding
-import com.example.citmoviedatabase_mf.models.Results
-import retrofit2.Call
-import retrofit2.Response
-import javax.security.auth.callback.Callback
+import com.example.citmoviedatabase_mf.repository.nowplaying.NowPlayingStatus
 
 class NowPlayingFragment(override val viewModel: NowPlayingViewModel) : BaseFragment<FragmentNowPlayingBinding, NowPlayingViewModel>() {
 
@@ -41,8 +35,22 @@ class NowPlayingFragment(override val viewModel: NowPlayingViewModel) : BaseFrag
 //            }
 //        })
 
-        viewModel.results.observe(viewLifecycleOwner, {binding.rvNowPlaying.adapter = NowPlayingAdapter(it.results)})
+        setupRecyclerView()
+    }
 
-        viewModel.getAllMoviesNowPlaying()
+    private fun setupRecyclerView() {
+        viewModel.getAllMoviesNowPlaying().observe(viewLifecycleOwner, Observer {
+            when(it){
+                is NowPlayingStatus.Success -> {
+                    binding.rvNowPlaying.adapter = NowPlayingAdapter(it.listNowPlaying.results)
+                }
+                is NowPlayingStatus.NotFound -> {
+                    Toast.makeText(context, "Não foi possível carregar a lista de filmes", Toast.LENGTH_LONG).show()
+                }
+                is NowPlayingStatus.Error -> {
+                    Toast.makeText(context, it.error.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        })
     }
 }

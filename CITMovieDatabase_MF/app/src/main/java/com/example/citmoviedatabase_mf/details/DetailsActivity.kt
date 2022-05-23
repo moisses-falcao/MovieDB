@@ -5,32 +5,30 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.example.citmoviedatabase_mf.R
 import com.example.citmoviedatabase_mf.activities.MainActivity
-import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
 import com.example.citmoviedatabase_mf.databinding.ActivityDetailsBinding
-import com.example.citmoviedatabase_mf.details.dialogs.CastAndCrewDialogActivity
-import com.example.citmoviedatabase_mf.details.dialogs.PhotosDialogActivity
-import com.example.citmoviedatabase_mf.models.CastModel
-import com.example.citmoviedatabase_mf.models.MovieDetailsModel
-import com.example.citmoviedatabase_mf.models.PhotoModel
-import com.example.citmoviedatabase_mf.models.SceneModel
-import retrofit2.Call
-import retrofit2.Response
-import javax.security.auth.callback.Callback
+import com.example.citmoviedatabase_mf.details.Casting.CastingActivity
+import com.example.citmoviedatabase_mf.details.photos.PhotosActivity
+import com.example.citmoviedatabase_mf.repository.details.DetailsRepositoryImpl
+import com.example.citmoviedatabase_mf.repository.details.DetailsStatus
 
 class DetailsActivity() : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailsBinding
-    private lateinit var viewModel: DetailsActivityViewModel
+    private lateinit var viewModel: DetailsViewModel
     var movieId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val viewModelFactory = DetailsViewModelFactory(DetailsRepositoryImpl())
+        viewModel = ViewModelProvider(this, viewModelFactory).get((DetailsViewModel::class.java))
 
         hideBars()
 
@@ -47,36 +45,65 @@ class DetailsActivity() : AppCompatActivity() {
 
     private fun viewAll() {
         binding.tvViewAllCastAndCrew.setOnClickListener {
-            val intent = Intent(this, CastAndCrewDialogActivity::class.java)
-            intent.putExtra(CastAndCrewDialogActivity.MOVIE_ID_CAST_DIALOG, movieId)
+            val intent = Intent(this, CastingActivity::class.java)
+            intent.putExtra(CastingActivity.MOVIE_ID_CAST_DIALOG, movieId)
             startActivity(intent)
         }
         binding.tvViewAllPhotos.setOnClickListener {
-            val intent = Intent(this, PhotosDialogActivity::class.java)
-            intent.putExtra(PhotosDialogActivity.MOVIE_ID_PHOTO_DIALOG, movieId)
+            val intent = Intent(this, PhotosActivity::class.java)
+            intent.putExtra(PhotosActivity.MOVIE_ID_PHOTO_DIALOG, movieId)
             startActivity(intent)
         }
     }
 
     private fun populatingDetails() {
-        movieId = intent.getIntExtra(MOVIE_ID, 0)
-        val movieDatabaseService = MovieDatabaseService.movieDatabaseService
-        val call = movieDatabaseService.getMovieDetails(movieId.toString())
+//        val movieDatabaseService = MovieDatabaseService.movieDatabaseService
+//        val call = movieDatabaseService.getMovieDetails(movieId.toString())
 
-        call.enqueue(object : Callback, retrofit2.Callback<MovieDetailsModel>{
-            override fun onResponse(
-                call: Call<MovieDetailsModel>,
-                response: Response<MovieDetailsModel>
-            ) {
-                response.body()?.let {
-                    Glide.with(binding.ivBackdrop).load("https://image.tmdb.org/t/p/w500" + it.backdropPath).into(binding.ivBackdrop)
-                    binding.tvMovieOriginalTitle.text = it.originalTitle
-                    binding.tvDuration.text = it.runtime?.let { it1 -> convertToHours(it1) }
-                    binding.tvPopularuty.text = it.voteAverage.toString()
-                    binding.tvFullSynopsis.text = it.overview
+//        call.enqueue(object : Callback, retrofit2.Callback<MovieDetailsModel>{
+//            override fun onResponse(
+//                call: Call<MovieDetailsModel>,
+//                response: Response<MovieDetailsModel>
+//            ) {
+//                response.body()?.let {
+//                    Glide.with(binding.ivBackdrop).load("https://image.tmdb.org/t/p/w500" + it.backdropPath).into(binding.ivBackdrop)
+//                    binding.tvMovieOriginalTitle.text = it.originalTitle
+//                    binding.tvDuration.text = it.runtime?.let { it1 -> convertToHours(it1) }
+//                    binding.tvPopularuty.text = it.voteAverage.toString()
+//                    binding.tvFullSynopsis.text = it.overview
+//
+//                    var lista: MutableList<String> = mutableListOf()
+//                    it.genres.forEach {
+//                        lista.add(it.name)
+//                    }
+//                    var generos: String = ""
+//                    lista.forEach {
+//                        generos = generos + ", " + it
+//                    }
+//                    generos = generos.drop(2)
+//                    binding.tvGenders.text = generos
+//
+//                    showMoreShowLess()
+//                }
+//            }
+//            override fun onFailure(call: Call<MovieDetailsModel>, t: Throwable) {
+//                throw (IllegalAccessException(t.message))
+//            }
+//        })
+
+        movieId = intent.getIntExtra(MOVIE_ID, 0)
+
+        viewModel.getMovieDetails(movieId.toString()).observe(this, Observer {
+            when(it){
+                is DetailsStatus.SuccessDetails -> {
+                    Glide.with(binding.ivBackdrop).load("https://image.tmdb.org/t/p/w500" + it.movieDetails.backdropPath).into(binding.ivBackdrop)
+                    binding.tvMovieOriginalTitle.text = it.movieDetails.originalTitle
+                    binding.tvDuration.text = it.movieDetails.runtime?.let { it1 -> convertToHours(it1) }
+                    binding.tvPopularuty.text = it.movieDetails.voteAverage.toString()
+                    binding.tvFullSynopsis.text = it.movieDetails.overview
 
                     var lista: MutableList<String> = mutableListOf()
-                    it.genres.forEach {
+                    it.movieDetails.genres.forEach {
                         lista.add(it.name)
                     }
                     var generos: String = ""
@@ -88,9 +115,8 @@ class DetailsActivity() : AppCompatActivity() {
 
                     showMoreShowLess()
                 }
-            }
-            override fun onFailure(call: Call<MovieDetailsModel>, t: Throwable) {
-                throw (IllegalAccessException(t.message))
+                is DetailsStatus.NotFound -> {Toast.makeText(this, "Não foi possível carregar os detalhes deste filme", Toast.LENGTH_LONG).show()}
+                is DetailsStatus.Error -> {Toast.makeText(this, it.error.message, Toast.LENGTH_LONG).show()}
             }
         })
     }
@@ -137,35 +163,28 @@ class DetailsActivity() : AppCompatActivity() {
 
     fun populatingCastAndCrew(){
         movieId = intent.getIntExtra(MOVIE_ID, 0)
-        val movieDatabaseService = MovieDatabaseService.movieDatabaseService
-        val call = movieDatabaseService.getMovieCredits(movieId.toString())
 
-        call.enqueue(object : Callback, retrofit2.Callback<CastModel> {
-            override fun onResponse(call: Call<CastModel>, response: Response<CastModel>) {
-                val castAndCrewAdapter = response.body()?.cast?.let {
-                    CastAndCrewAdapter(it)
+        viewModel.getMovieCredits(movieId.toString()).observe(this, Observer {
+            when(it){
+                is DetailsStatus.SuccessCredits -> {
+                    binding.rvCastAndCrew.adapter = CastAndCrewAdapter(it.casting.cast)
                 }
-                binding.rvCastAndCrew.adapter = castAndCrewAdapter
-            }
-            override fun onFailure(call: Call<CastModel>, t: Throwable) {
+                is DetailsStatus.NotFound -> {Toast.makeText(this, "Não foi possível carregar o elenco.", Toast.LENGTH_LONG).show()}
+                is DetailsStatus.Error -> {Toast.makeText(this, it.error.message, Toast.LENGTH_LONG).show()}
             }
         })
     }
 
     fun populatingPhotos(){
         movieId = intent.getIntExtra(MOVIE_ID, 0)
-        val movieDatabaseService = MovieDatabaseService.movieDatabaseService
-        val call = movieDatabaseService.getMovieScenes(movieId.toString())
 
-        call.enqueue(object: Callback, retrofit2.Callback<SceneModel>{
-            override fun onResponse(call: Call<SceneModel>, response: Response<SceneModel>) {
-                val photoAdapter = response.body()?.scenarios?.let {
-                    PhotoAdapter(it)
+        viewModel.getMovieScenes(movieId.toString()).observe(this, Observer {
+            when(it){
+                is DetailsStatus.SuccessScenes ->{
+                    binding.rvPhotos.adapter = PhotoAdapter(it.scenes.scenarios)
                 }
-                binding.rvPhotos.layoutManager = LinearLayoutManager(this@DetailsActivity, LinearLayoutManager.HORIZONTAL, false)
-                binding.rvPhotos.adapter = photoAdapter
-            }
-            override fun onFailure(call: Call<SceneModel>, t: Throwable) {
+                is DetailsStatus.NotFound -> {Toast.makeText(this, "Não foi possível carregar as cenas do filme.", Toast.LENGTH_LONG).show() }
+                is DetailsStatus.Error -> {Toast.makeText(this, it.error.message, Toast.LENGTH_LONG)}
             }
         })
     }

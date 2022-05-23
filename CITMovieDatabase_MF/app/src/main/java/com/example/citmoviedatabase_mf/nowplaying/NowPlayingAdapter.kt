@@ -1,17 +1,14 @@
 package com.example.citmoviedatabase_mf.nowplaying
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.citmoviedatabase_mf.databinding.MovieModelBinding
 import com.example.citmoviedatabase_mf.details.DetailsActivity
-import com.example.citmoviedatabase_mf.models.GenreModel
+import com.example.citmoviedatabase_mf.models.MovieDetailsModel
 import com.example.citmoviedatabase_mf.models.MovieModel
-import kotlinx.coroutines.NonDisposableHandle.parent
-import java.lang.System.load
 
 class NowPlayingAdapter(var movies: List<MovieModel>) : RecyclerView.Adapter<NowPlayingAdapter.ViewHolder>() {
 

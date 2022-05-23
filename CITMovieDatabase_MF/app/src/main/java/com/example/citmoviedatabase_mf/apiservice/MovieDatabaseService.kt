@@ -25,7 +25,7 @@ interface MovieDatabaseService {
     fun getMovieScenes(@Path("movie_id")todoId: String) : Call<SceneModel>
 
     companion object{
-        val movieDatabaseService by lazy{
+        val movieDatabaseService: MovieDatabaseService by lazy{
             val movieDatabaseService = Retrofit.Builder()
                 .baseUrl("https://api.themoviedb.org/3/movie/").addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -33,5 +33,4 @@ interface MovieDatabaseService {
             movieDatabaseService.create(MovieDatabaseService::class.java)
         }
     }
-
 }

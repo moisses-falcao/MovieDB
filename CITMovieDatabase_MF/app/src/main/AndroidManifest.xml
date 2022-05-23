@@ -13,10 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CITMovieDatabase_MF">
         <activity
-            android:name=".details.dialogs.PhotosDialogActivity"
+            android:name=".details.photos.PhotosActivity"
             android:exported="false" />
         <activity
-            android:name=".details.dialogs.CastAndCrewDialogActivity"
+            android:name=".details.Casting.CastingActivity"
             android:exported="false" />
         <activity
             android:name=".details.DetailsActivity"

@@ -1,18 +1,13 @@
-package com.example.citmoviedatabase_mf.details.dialogs
+package com.example.citmoviedatabase_mf.details.Casting
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.citmoviedatabase_mf.databinding.CastAndCrewModelBinding
-import com.example.citmoviedatabase_mf.databinding.MovieModelBinding
-import com.example.citmoviedatabase_mf.details.DetailsActivity
 import com.example.citmoviedatabase_mf.models.CastAndCrewModel
-import com.example.citmoviedatabase_mf.models.MovieModel
-import kotlinx.coroutines.NonDisposableHandle.parent
 
-class CastAndCrewDialogAdapter(private val castAndCrewList: List<CastAndCrewModel>) : RecyclerView.Adapter<CastAndCrewDialogAdapter.ViewHolder>() {
+class CastingAdapter(private val castAndCrewList: List<CastAndCrewModel>) : RecyclerView.Adapter<CastingAdapter.ViewHolder>() {
 
     class ViewHolder (val binding: CastAndCrewModelBinding) : RecyclerView.ViewHolder(binding.root){}
 

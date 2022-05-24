@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
 import com.example.citmoviedatabase_mf.basefragment.BaseFragment
 import com.example.citmoviedatabase_mf.databinding.FragmentNowPlayingBinding
 import com.example.citmoviedatabase_mf.repository.nowplaying.NowPlayingStatus
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NowPlayingFragment(override val viewModel: NowPlayingViewModel) : BaseFragment<FragmentNowPlayingBinding, NowPlayingViewModel>() {
+class NowPlayingFragment() : BaseFragment<FragmentNowPlayingBinding, NowPlayingViewModel>() {
 
+    override val viewModel: NowPlayingViewModel by viewModel()
 
     override fun getViewBinging(
         inflater: LayoutInflater,

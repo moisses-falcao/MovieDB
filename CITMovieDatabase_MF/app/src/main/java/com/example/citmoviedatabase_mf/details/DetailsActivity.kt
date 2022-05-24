@@ -10,25 +10,26 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.citmoviedatabase_mf.activities.MainActivity
+import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
 import com.example.citmoviedatabase_mf.databinding.ActivityDetailsBinding
 import com.example.citmoviedatabase_mf.details.Casting.CastingActivity
 import com.example.citmoviedatabase_mf.details.photos.PhotosActivity
 import com.example.citmoviedatabase_mf.repository.details.DetailsRepositoryImpl
 import com.example.citmoviedatabase_mf.repository.details.DetailsStatus
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailsActivity() : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailsBinding
-    private lateinit var viewModel: DetailsViewModel
     var movieId: Int = 0
+    val movieDatabaseService: MovieDatabaseService by inject()
+    val viewModel: DetailsViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val viewModelFactory = DetailsViewModelFactory(DetailsRepositoryImpl())
-        viewModel = ViewModelProvider(this, viewModelFactory).get((DetailsViewModel::class.java))
 
         hideBars()
 

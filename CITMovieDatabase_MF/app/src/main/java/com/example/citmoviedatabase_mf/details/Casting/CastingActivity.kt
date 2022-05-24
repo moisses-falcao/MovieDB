@@ -11,6 +11,8 @@ import com.example.citmoviedatabase_mf.databinding.ActivityCastAndCrewDialogBind
 import com.example.citmoviedatabase_mf.models.CastModel
 import com.example.citmoviedatabase_mf.repository.casting.CastingRepositoryImpl
 import com.example.citmoviedatabase_mf.repository.casting.CastingStatus
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Call
 import retrofit2.Response
 import javax.security.auth.callback.Callback
@@ -19,7 +21,8 @@ class CastingActivity : AppCompatActivity() {
 
     private var movieId:Int = 0
     private lateinit var binding: ActivityCastAndCrewDialogBinding
-    private lateinit var viewModel: CastingViewModel
+    val movieDatabaseService: MovieDatabaseService by inject()
+    val viewModel: CastingViewModel by viewModel()
 
     @SuppressLint("ResourceAsColor")
 
@@ -29,9 +32,6 @@ class CastingActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar!!.hide()
-
-        val castingViewModelFactory = CastingViewModelFactory(CastingRepositoryImpl())
-        viewModel = ViewModelProvider(this, castingViewModelFactory).get(CastingViewModel::class.java)
 
         setupRecyclerView()
     }

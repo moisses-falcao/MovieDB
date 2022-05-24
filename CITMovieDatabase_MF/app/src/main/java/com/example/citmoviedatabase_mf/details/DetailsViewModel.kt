@@ -7,9 +7,7 @@ import com.example.citmoviedatabase_mf.repository.details.DetailsRepositoryImpl
 import com.example.citmoviedatabase_mf.repository.details.DetailsStatus
 
 
-class DetailsViewModel(private val detailsRepository: DetailsRepository = DetailsRepositoryImpl()): ViewModel() {
-
-
+class DetailsViewModel(private val detailsRepository: DetailsRepository): ViewModel() {
 
     fun getMovieDetails(movieId: String): LiveData<DetailsStatus>{
         return detailsRepository.getMovieDetails(movieId)

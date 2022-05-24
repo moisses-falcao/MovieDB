@@ -8,13 +8,13 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.example.citmoviedatabase_mf.basefragment.BaseFragment
 import com.example.citmoviedatabase_mf.databinding.FragmentComingSoonBinding
-import com.example.citmoviedatabase_mf.models.Results
 import com.example.citmoviedatabase_mf.nowplaying.NowPlayingAdapter
 import com.example.citmoviedatabase_mf.repository.comingsoon.ComingSoonStatus
-import retrofit2.Callback
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ComingSoonFragment(override val viewModel: ComingSoonViewModel) : BaseFragment<FragmentComingSoonBinding, ComingSoonViewModel>() {
+class ComingSoonFragment() : BaseFragment<FragmentComingSoonBinding, ComingSoonViewModel>() {
 
+    override val viewModel: ComingSoonViewModel by viewModel()
 
     override fun getViewBinging(
         inflater: LayoutInflater,

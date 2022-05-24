@@ -10,9 +10,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailsRepositoryImpl : DetailsRepository {
-
-    val movieDatabaseService = MovieDatabaseService.movieDatabaseService
+class DetailsRepositoryImpl(val movieDatabaseService: MovieDatabaseService) : DetailsRepository {
 
     override fun getMovieDetails(movieId: String): LiveData<DetailsStatus> {
 

@@ -10,6 +10,7 @@ import com.example.citmoviedatabase_mf.databinding.ActivityPhotosDialogBinding
 import com.example.citmoviedatabase_mf.models.SceneModel
 import com.example.citmoviedatabase_mf.repository.Photos.PhotosRepositoryImpl
 import com.example.citmoviedatabase_mf.repository.Photos.PhotosStatus
+import org.koin.android.ext.android.inject
 import retrofit2.Call
 import retrofit2.Response
 import javax.security.auth.callback.Callback
@@ -19,6 +20,7 @@ class PhotosActivity : AppCompatActivity() {
     private var movieId:Int = 0
     private lateinit var binding: ActivityPhotosDialogBinding
     private lateinit var viewModel: PhotosViewModel
+    val movieDatabaseService: MovieDatabaseService by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +29,7 @@ class PhotosActivity : AppCompatActivity() {
 
         supportActionBar!!.hide()
 
-        val photosViewModelFactory = PhotosViewModelFactory(PhotosRepositoryImpl())
+        val photosViewModelFactory = PhotosViewModelFactory(PhotosRepositoryImpl(movieDatabaseService))
         viewModel = ViewModelProvider(this, photosViewModelFactory).get(PhotosViewModel::class.java)
 
        setupRecyclerView()

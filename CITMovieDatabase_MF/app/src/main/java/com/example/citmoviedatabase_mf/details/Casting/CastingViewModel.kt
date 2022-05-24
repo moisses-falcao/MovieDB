@@ -6,7 +6,7 @@ import com.example.citmoviedatabase_mf.repository.casting.CastingRepository
 import com.example.citmoviedatabase_mf.repository.casting.CastingRepositoryImpl
 import com.example.citmoviedatabase_mf.repository.casting.CastingStatus
 
-class CastingViewModel (val castingRepository: CastingRepository = CastingRepositoryImpl()) : ViewModel() {
+class CastingViewModel (val castingRepository: CastingRepository) : ViewModel() {
 
     fun getMovieCredits(movieId: String): LiveData<CastingStatus>{
         return castingRepository.getMovieCredits(movieId)

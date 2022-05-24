@@ -12,7 +12,7 @@ import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Callback
 
-class ComingSoonViewModel(val comingSoonRepository: ComingSoonRepository = ComingSoonRepositoryImpl()): ViewModel() {
+class ComingSoonViewModel(private val comingSoonRepository: ComingSoonRepository): ViewModel() {
 
     fun getAllMoviesUpcoming(): LiveData<ComingSoonStatus>{
         return comingSoonRepository.getAllMoviesUpcoming()

@@ -8,9 +8,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ComingSoonRepositoryImpl : ComingSoonRepository {
-    
-    private val movieDatabaseService = MovieDatabaseService.movieDatabaseService
+class ComingSoonRepositoryImpl(private val movieDatabaseService: MovieDatabaseService) : ComingSoonRepository {
     
     override fun getAllMoviesUpcoming(): LiveData<ComingSoonStatus> {
         

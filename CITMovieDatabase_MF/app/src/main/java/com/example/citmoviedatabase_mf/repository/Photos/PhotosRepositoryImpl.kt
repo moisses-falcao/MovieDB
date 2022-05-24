@@ -8,9 +8,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PhotosRepositoryImpl : PhotosRepository {
+class PhotosRepositoryImpl(val movieDatabaseService: MovieDatabaseService) : PhotosRepository {
 
-    val movieDatabaseService = MovieDatabaseService.movieDatabaseService
 
     override fun getMovieScenes(movieId: String): LiveData<PhotosStatus> {
 

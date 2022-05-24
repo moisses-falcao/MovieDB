@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.citmoviedatabase_mf">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
+        android:name="com.example.citmoviedatabase_mf.di.MyApp"
         android:allowBackup="true"
         android:icon="@drawable/logo_ciandt_movie_database"
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo_ciandt_movie_database"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CITMovieDatabase_MF">
+        android:theme="@style/Theme.CITMovieDatabase_MF"
+        tools:ignore="MissingClass">
         <activity
             android:name=".details.photos.PhotosActivity"
             android:exported="false" />

@@ -26,13 +26,13 @@ interface MovieDatabaseService {
     @GET("{movie_id}/images?$API_KEY")
     fun getMovieScenes(@Path("movie_id")todoId: String) : Call<SceneModel>
 
-    companion object{
-        val movieDatabaseService: MovieDatabaseService by lazy{
-            val movieDatabaseService = Retrofit.Builder()
-                .baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
-                .build()
-
-            movieDatabaseService.create(MovieDatabaseService::class.java)
-        }
-    }
+//    companion object{
+//        val movieDatabaseService: MovieDatabaseService by lazy{
+//            val movieDatabaseService = Retrofit.Builder()
+//                .baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
+//                .build()
+//
+//            movieDatabaseService.create(MovieDatabaseService::class.java)
+//        }
+//    }
 }

@@ -8,9 +8,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CastingRepositoryImpl : CastingRepository{
-
-    val movieDatabaseService = MovieDatabaseService.movieDatabaseService
+class CastingRepositoryImpl(val movieDatabaseService: MovieDatabaseService) : CastingRepository{
 
     override fun getMovieCredits(movieId: String): LiveData<CastingStatus> {
 

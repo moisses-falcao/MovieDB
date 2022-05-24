@@ -3,21 +3,13 @@ package com.example.citmoviedatabase_mf.repository.nowplaying
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
-import com.example.citmoviedatabase_mf.models.MovieModel
 import com.example.citmoviedatabase_mf.models.Results
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class NowPlayingRepositoryImpl: NowPlayingRepository{
+class NowPlayingRepositoryImpl(val movieDatabaseService: MovieDatabaseService): NowPlayingRepository{
 
-    private val movieDatabaseService = MovieDatabaseService.movieDatabaseService
-
-    fun getMovieDetails(id: String) = movieDatabaseService.getMovieDetails(id)
-
-    fun getAllMoviesUpcoming() = movieDatabaseService.getAllMoviesUpcoming()
-
-    ///////////////////////////////////////
 
     override fun getAllMoviesNowPlaying(): LiveData<NowPlayingStatus> {
 

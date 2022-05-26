@@ -26,7 +26,12 @@ class CastAndCrewAdapter(private val castAndCrewList: List<CastAndCrewModel>) : 
             with(castAndCrewList[position]){
                 Glide.with(binding.ivActorPicture).load("https://image.tmdb.org/t/p/w342" + actorPicture).into(binding.ivActorPicture)
                 binding.tvActorName.text = actorName
-                binding.tvActorChar.text = "••• " + character
+
+                if (character.length <= 22 ){
+                    binding.tvActorChar.text = "••• " + character
+                }else{
+                    binding.tvActorChar.text = character
+                }
             }
         }
     }

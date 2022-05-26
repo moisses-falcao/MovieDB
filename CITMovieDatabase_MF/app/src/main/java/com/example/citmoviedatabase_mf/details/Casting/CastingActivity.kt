@@ -40,15 +40,17 @@ class CastingActivity : AppCompatActivity() {
 
         movieId = intent.getIntExtra(CastingActivity.MOVIE_ID_CAST_DIALOG, 0)
 
-        viewModel.getMovieCredits(movieId.toString()).observe(this, Observer {
+        viewModel.getMovieCredits(movieId.toString())
+
+        viewModel.status.observe(this){
             when(it){
-                is CastingStatus.Success -> {
+                is CastingViewModelStatus.Success -> {
                     binding.rvCastAndCrewDialog.adapter = CastingAdapter(it.casting.cast)
                 }
-                is CastingStatus.NotFound -> {Toast.makeText(this, "Não foi possível carregar o elenco deste filme.", Toast.LENGTH_LONG).show()}
-                is CastingStatus.Error -> {Toast.makeText(this, it.error.message, Toast.LENGTH_LONG).show()}
+                is CastingViewModelStatus.NotFound -> {Toast.makeText(this, "Não foi possível carregar o elenco deste filme.", Toast.LENGTH_LONG).show()}
+                is CastingViewModelStatus.Error -> {Toast.makeText(this, it.error.message, Toast.LENGTH_LONG).show()}
             }
-        })
+        }
     }
 
     companion object{

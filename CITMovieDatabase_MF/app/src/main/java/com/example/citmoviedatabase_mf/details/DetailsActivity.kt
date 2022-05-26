@@ -94,9 +94,11 @@ class DetailsActivity() : AppCompatActivity() {
 
         movieId = intent.getIntExtra(MOVIE_ID, 0)
 
-        viewModel.getMovieDetails(movieId.toString()).observe(this, Observer {
+        viewModel.getMovieDetails(movieId.toString())
+
+        viewModel.statusDetails.observe(this){
             when(it){
-                is DetailsStatus.SuccessDetails -> {
+                is DetailsViewModelStatus.SuccessDetails ->{
                     Glide.with(binding.ivBackdrop).load("https://image.tmdb.org/t/p/w500" + it.movieDetails.backdropPath).into(binding.ivBackdrop)
                     binding.tvMovieOriginalTitle.text = it.movieDetails.originalTitle
                     binding.tvDuration.text = it.movieDetails.runtime?.let { it1 -> convertToHours(it1) }
@@ -116,10 +118,14 @@ class DetailsActivity() : AppCompatActivity() {
 
                     showMoreShowLess()
                 }
-                is DetailsStatus.NotFound -> {Toast.makeText(this, "Não foi possível carregar os detalhes deste filme", Toast.LENGTH_LONG).show()}
-                is DetailsStatus.Error -> {Toast.makeText(this, it.error.message, Toast.LENGTH_LONG).show()}
+                is DetailsViewModelStatus.NotFound ->{
+                    Toast.makeText(this, "Não foi possível carregar os detalhes deste filme", Toast.LENGTH_LONG).show()
+                }
+                is DetailsViewModelStatus.Error ->{
+                    Toast.makeText(this, it.error.message, Toast.LENGTH_LONG).show()
+                }
             }
-        })
+        }
     }
 
     private fun showMoreShowLess() {
@@ -148,8 +154,8 @@ class DetailsActivity() : AppCompatActivity() {
     }
 
     private fun hideBars() {
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-        actionBar?.hide()
+//        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+//        actionBar?.hide()
 
         supportActionBar!!.hide()
     }
@@ -163,31 +169,39 @@ class DetailsActivity() : AppCompatActivity() {
     }
 
     fun populatingCastAndCrew(){
+
         movieId = intent.getIntExtra(MOVIE_ID, 0)
 
-        viewModel.getMovieCredits(movieId.toString()).observe(this, Observer {
+        viewModel.getMovieCredits(movieId.toString())
+
+        viewModel.statusCredits.observe(this){
             when(it){
-                is DetailsStatus.SuccessCredits -> {
+                is DetailsViewModelStatus.SuccessCredits ->{
                     binding.rvCastAndCrew.adapter = CastAndCrewAdapter(it.casting.cast)
                 }
-                is DetailsStatus.NotFound -> {Toast.makeText(this, "Não foi possível carregar o elenco.", Toast.LENGTH_LONG).show()}
-                is DetailsStatus.Error -> {Toast.makeText(this, it.error.message, Toast.LENGTH_LONG).show()}
+                is DetailsViewModelStatus.NotFound ->{ Toast.makeText(this, "Não foi possível carregar o elenco.", Toast.LENGTH_LONG).show() }
+                is DetailsViewModelStatus.Error ->{ Toast.makeText(this, it.error.message, Toast.LENGTH_LONG).show() }
+                else -> {}
             }
-        })
+        }
     }
 
     fun populatingPhotos(){
+
         movieId = intent.getIntExtra(MOVIE_ID, 0)
 
-        viewModel.getMovieScenes(movieId.toString()).observe(this, Observer {
+        viewModel.getMovieScenes(movieId.toString())
+
+        viewModel.statusScenes.observe(this){
             when(it){
-                is DetailsStatus.SuccessScenes ->{
+                is DetailsViewModelStatus.SuccessScenes ->{
                     binding.rvPhotos.adapter = PhotoAdapter(it.scenes.scenarios)
                 }
-                is DetailsStatus.NotFound -> {Toast.makeText(this, "Não foi possível carregar as cenas do filme.", Toast.LENGTH_LONG).show() }
-                is DetailsStatus.Error -> {Toast.makeText(this, it.error.message, Toast.LENGTH_LONG)}
+                is DetailsViewModelStatus.NotFound ->{ Toast.makeText(this, "Não foi possível carregar as cenas do filme.", Toast.LENGTH_LONG).show() }
+                is DetailsViewModelStatus.Error ->{ Toast.makeText(this, it.error.message, Toast.LENGTH_LONG).show() }
+                else -> {}
             }
-        })
+        }
     }
 
     companion object{

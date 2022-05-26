@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.example.citmoviedatabase_mf.basefragment.BaseFragment
 import com.example.citmoviedatabase_mf.databinding.FragmentNowPlayingBinding
@@ -40,18 +41,34 @@ class NowPlayingFragment() : BaseFragment<FragmentNowPlayingBinding, NowPlayingV
     }
 
     private fun setupRecyclerView() {
-        viewModel.getAllMoviesNowPlaying().observe(viewLifecycleOwner, Observer {
+
+        viewModel.getAllMoviesNowPlaying()
+
+        viewModel.status.observe(viewLifecycleOwner) {
             when(it){
-                is NowPlayingStatus.Success -> {
+                is NowPlayingViewModelStatus.Success ->{
                     binding.rvNowPlaying.adapter = NowPlayingAdapter(it.listNowPlaying.results)
                 }
-                is NowPlayingStatus.NotFound -> {
+                is NowPlayingViewModelStatus.NotFound ->{
                     Toast.makeText(context, "Não foi possível carregar a lista de filmes", Toast.LENGTH_LONG).show()
                 }
-                is NowPlayingStatus.Error -> {
+                is NowPlayingViewModelStatus.Error ->{
                     Toast.makeText(context, it.error.message, Toast.LENGTH_LONG).show()
                 }
             }
-        })
+        }
+//        viewModel.getAllMoviesNowPlaying().observe(viewLifecycleOwner, Observer {
+//            when(it){
+//                is NowPlayingStatus.Success -> {
+//                    binding.rvNowPlaying.adapter = NowPlayingAdapter(it.listNowPlaying.results)
+//                }
+//                is NowPlayingStatus.NotFound -> {
+//                    Toast.makeText(context, "Não foi possível carregar a lista de filmes", Toast.LENGTH_LONG).show()
+//                }
+//                is NowPlayingStatus.Error -> {
+//                    Toast.makeText(context, it.error.message, Toast.LENGTH_LONG).show()
+//                }
+//            }
+//        })
     }
 }

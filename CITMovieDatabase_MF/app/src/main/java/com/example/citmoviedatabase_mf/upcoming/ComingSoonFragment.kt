@@ -28,18 +28,21 @@ class ComingSoonFragment() : BaseFragment<FragmentComingSoonBinding, ComingSoonV
     }
 
     private fun setupRecyclerView() {
-        viewModel.getAllMoviesUpcoming().observe(viewLifecycleOwner, Observer {
+
+        viewModel.getAllMoviesUpcoming()
+
+        viewModel.status.observe(viewLifecycleOwner){
             when(it){
-                is ComingSoonStatus.Success -> {
+                is ComingSoonViewModelStatus.Success ->{
                     binding.rvComingSoon.adapter = NowPlayingAdapter(it.listComingSoon.results)
                 }
-                is ComingSoonStatus.NotFound -> {
+                is ComingSoonViewModelStatus.NotFound ->{
                     Toast.makeText(context, "Não foi possível carregar a lista de filmes", Toast.LENGTH_LONG).show()
                 }
-                is ComingSoonStatus.Error -> {
+                is ComingSoonViewModelStatus.Error ->{
                     Toast.makeText(context, it.error.message, Toast.LENGTH_LONG)
                 }
             }
-        })
+        }
     }
 }

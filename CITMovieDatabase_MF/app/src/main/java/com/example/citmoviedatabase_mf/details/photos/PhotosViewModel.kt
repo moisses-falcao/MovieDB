@@ -11,7 +11,7 @@ class PhotosViewModel(private val photosRepository: PhotosRepository): ViewModel
 
     fun getMovieScenes(movieId: String){
 
-        status.addSource(photosRepository.getMovieScenes(movieId)){
+        photosRepository.getMovieScenes(movieId){
             when(it){
                 is PhotosStatus.Success ->{
                     status.value = PhotosViewModelStatus.Success(it.scenes)

@@ -1,26 +1,26 @@
 package com.example.citmoviedatabase_mf.upcoming
 
-import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.citmoviedatabase_mf.repository.comingsoon.ComingSoonRepository
 import com.example.citmoviedatabase_mf.repository.comingsoon.ComingSoonStatus
 
 
-class ComingSoonViewModel(private val comingSoonRepository: ComingSoonRepository): ViewModel() {
+class ComingSoonViewModel(private val comingSoonRepository: ComingSoonRepository) : ViewModel() {
 
-    val status = MediatorLiveData<ComingSoonViewModelStatus>()
+    val status = MutableLiveData<ComingSoonViewModelStatus>()
 
-    fun getAllMoviesUpcoming(){
+    fun getAllMoviesUpcoming() {
 
-        status.addSource(comingSoonRepository.getAllMoviesUpcoming()){
-            when(it){
-                is ComingSoonStatus.Success ->{
+        comingSoonRepository.getAllMoviesUpcoming {
+            when (it) {
+                is ComingSoonStatus.Success -> {
                     status.value = ComingSoonViewModelStatus.Success(it.listComingSoon)
                 }
-                is ComingSoonStatus.NotFound ->{
+                is ComingSoonStatus.NotFound -> {
                     status.value = ComingSoonViewModelStatus.NotFound
                 }
-                is ComingSoonStatus.Error ->{
+                is ComingSoonStatus.Error -> {
                     status.value = ComingSoonViewModelStatus.Error(it.error)
                 }
             }

@@ -14,7 +14,7 @@ class DetailsViewModel(private val detailsRepository: DetailsRepository): ViewMo
 
     fun getMovieDetails(movieId: String){
 
-        statusDetails.addSource(detailsRepository.getMovieDetails(movieId)){
+        detailsRepository.getMovieDetails(movieId){
             when(it){
                 is DetailsStatus.SuccessDetails ->{
                     statusDetails.value = DetailsViewModelStatus.SuccessDetails(it.movieDetails)
@@ -32,7 +32,7 @@ class DetailsViewModel(private val detailsRepository: DetailsRepository): ViewMo
 
     fun getMovieCredits(movieId: String){
 
-        statusCredits.addSource(detailsRepository.getMovieCredits(movieId)){
+        detailsRepository.getMovieCredits(movieId){
             when(it){
                 is DetailsStatus.SuccessCredits ->{
                     statusCredits.value = DetailsViewModelStatus.SuccessCredits(it.casting)
@@ -50,7 +50,7 @@ class DetailsViewModel(private val detailsRepository: DetailsRepository): ViewMo
 
     fun getMovieScenes(movieId: String){
 
-        statusScenes.addSource(detailsRepository.getMovieScenes(movieId)){
+        detailsRepository.getMovieScenes(movieId){
             when(it){
                 is DetailsStatus.SuccessScenes ->{
                     statusScenes.value = DetailsViewModelStatus.SuccessScenes(it.scenes)

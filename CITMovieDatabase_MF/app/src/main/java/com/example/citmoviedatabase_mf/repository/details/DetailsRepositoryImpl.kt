@@ -1,7 +1,5 @@
 package com.example.citmoviedatabase_mf.repository.details
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
 import com.example.citmoviedatabase_mf.models.CastModel
 import com.example.citmoviedatabase_mf.models.MovieDetailsModel
@@ -12,9 +10,7 @@ import retrofit2.Response
 
 class DetailsRepositoryImpl(val movieDatabaseService: MovieDatabaseService) : DetailsRepository {
 
-    override fun getMovieDetails(movieId: String): LiveData<DetailsStatus> {
-
-        val status = MutableLiveData<DetailsStatus>()
+    override fun getMovieDetails(movieId: String, detailsStatus: (DetailsStatus) -> Unit){
 
         movieDatabaseService.getMovieDetails(movieId).enqueue(object : Callback<MovieDetailsModel> {
             override fun onResponse(
@@ -22,60 +18,49 @@ class DetailsRepositoryImpl(val movieDatabaseService: MovieDatabaseService) : De
                 response: Response<MovieDetailsModel>
             ) {
                 if(response.isSuccessful){
-                    status.value = response.body()?.let { DetailsStatus.SuccessDetails(it) }
+                    detailsStatus(DetailsStatus.SuccessDetails(response.body()!!))
                 }else{
-                    status.value = DetailsStatus.NotFound
+                    detailsStatus(DetailsStatus.NotFound)
                 }
             }
 
             override fun onFailure(call: Call<MovieDetailsModel>, t: Throwable) {
-                status.value = DetailsStatus.Error(t)
+                detailsStatus(DetailsStatus.Error(t))
             }
         })
-
-        return status
     }
 
-    override fun getMovieCredits(movieId: String): LiveData<DetailsStatus> {
-
-        val status = MutableLiveData<DetailsStatus>()
+    override fun getMovieCredits(movieId: String, detailsStatus: (DetailsStatus) -> Unit){
 
         movieDatabaseService.getMovieCredits(movieId).enqueue(object: Callback<CastModel>{
             override fun onResponse(call: Call<CastModel>, response: Response<CastModel>) {
                 if(response.isSuccessful){
-                    status.value = response.body()?.let { DetailsStatus.SuccessCredits(it) }
+                    detailsStatus(DetailsStatus.SuccessCredits(response.body()!!))
                 }else{
-                    status.value = DetailsStatus.NotFound
+                    detailsStatus(DetailsStatus.NotFound)
                 }
             }
 
             override fun onFailure(call: Call<CastModel>, t: Throwable) {
-                status.value = DetailsStatus.Error(t)
+                detailsStatus(DetailsStatus.Error(t))
             }
-
         })
-
-        return status
     }
 
-    override fun getMovieScenes(movieId: String): LiveData<DetailsStatus> {
-
-        val status = MutableLiveData<DetailsStatus>()
+    override fun getMovieScenes(movieId: String, detailsStatus: (DetailsStatus) -> Unit){
 
         movieDatabaseService.getMovieScenes(movieId).enqueue(object: Callback<SceneModel>{
             override fun onResponse(call: Call<SceneModel>, response: Response<SceneModel>) {
                 if (response.isSuccessful){
-                    status.value = response.body()?.let { DetailsStatus.SuccessScenes(it) }
+                    detailsStatus(DetailsStatus.SuccessScenes(response.body()!!))
                 }else{
-                    status.value = DetailsStatus.NotFound
+                    detailsStatus(DetailsStatus.NotFound)
                 }
             }
 
             override fun onFailure(call: Call<SceneModel>, t: Throwable) {
-                status.value = DetailsStatus.Error(t)
+                detailsStatus(DetailsStatus.Error(t))
             }
         })
-
-        return status
     }
 }

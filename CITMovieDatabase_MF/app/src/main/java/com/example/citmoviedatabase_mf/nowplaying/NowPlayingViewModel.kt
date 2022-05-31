@@ -6,11 +6,11 @@ import com.example.citmoviedatabase_mf.repository.nowplaying.NowPlayingStatus
 
 class NowPlayingViewModel(private val nowPlayingRepository: NowPlayingRepository): ViewModel() {
 
-    val status = MediatorLiveData<NowPlayingViewModelStatus>()
+    val status = MutableLiveData<NowPlayingViewModelStatus>()
 
     fun getAllMoviesNowPlaying() {
 
-        status.addSource(nowPlayingRepository.getAllMoviesNowPlaying()){
+        nowPlayingRepository.getAllMoviesNowPlaying(nowPlayingStatus = {
             when(it){
                 is NowPlayingStatus.Success ->{
                     status.value = NowPlayingViewModelStatus.Success(it.listNowPlaying)
@@ -22,6 +22,8 @@ class NowPlayingViewModel(private val nowPlayingRepository: NowPlayingRepository
                     status.value = NowPlayingViewModelStatus.Error(it.error)
                 }
             }
-        }
+        })
     }
 }
+
+

@@ -10,24 +10,21 @@ import retrofit2.Response
 
 class ComingSoonRepositoryImpl(private val movieDatabaseService: MovieDatabaseService) : ComingSoonRepository {
     
-    override fun getAllMoviesUpcoming(): LiveData<ComingSoonStatus> {
-        
-        val status = MutableLiveData<ComingSoonStatus>()
+    override fun getAllMoviesUpcoming(comingSoonStatus: (ComingSoonStatus) -> Unit) {
         
         movieDatabaseService.getAllMoviesUpcoming().enqueue(object : Callback<Results> {
             override fun onResponse(call: Call<Results>, response: Response<Results>) {
                 if(response.isSuccessful){
-                    status.value = response.body()?.let { ComingSoonStatus.Success(it)}
+                    comingSoonStatus(ComingSoonStatus.Success(response.body()!!))
                 }else{
-                    status.value = ComingSoonStatus.NotFound
+                    comingSoonStatus(ComingSoonStatus.NotFound)
                 }
             }
 
             override fun onFailure(call: Call<Results>, t: Throwable) {
-                status.value = ComingSoonStatus.Error(t)
+                comingSoonStatus(ComingSoonStatus.Error(t))
             }
 
         })
-        return status
     }
 }

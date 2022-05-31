@@ -4,5 +4,5 @@ import androidx.lifecycle.LiveData
 
 interface PhotosRepository {
 
-    fun getMovieScenes(movieId: String): LiveData<PhotosStatus>
+    fun getMovieScenes(movieId: String, photosStatus: (PhotosStatus) -> Unit)
 }

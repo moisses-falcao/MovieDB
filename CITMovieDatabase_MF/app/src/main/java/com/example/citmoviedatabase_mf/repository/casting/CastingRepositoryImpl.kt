@@ -10,24 +10,20 @@ import retrofit2.Response
 
 class CastingRepositoryImpl(val movieDatabaseService: MovieDatabaseService) : CastingRepository{
 
-    override fun getMovieCredits(movieId: String): LiveData<CastingStatus> {
-
-        val status = MutableLiveData<CastingStatus>()
+    override fun getMovieCredits(movieId: String, castingStatus: (CastingStatus) -> Unit) {
 
         movieDatabaseService.getMovieCredits(movieId).enqueue(object : Callback<CastModel> {
             override fun onResponse(call: Call<CastModel>, response: Response<CastModel>) {
                 if(response.isSuccessful){
-                    status.value = response.body()?.let { CastingStatus.Success(it) }
+                    castingStatus(CastingStatus.Success(response.body()!!))
                 }else{
-                    status.value = CastingStatus.NotFound
+                    castingStatus(CastingStatus.NotFound)
                 }
             }
 
             override fun onFailure(call: Call<CastModel>, t: Throwable) {
-                status.value = CastingStatus.Error(t)
+                castingStatus(CastingStatus.Error(t))
             }
         })
-
-        return status
     }
 }

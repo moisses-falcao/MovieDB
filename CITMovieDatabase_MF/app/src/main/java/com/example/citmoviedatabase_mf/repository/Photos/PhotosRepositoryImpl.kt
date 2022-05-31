@@ -11,24 +11,20 @@ import retrofit2.Response
 class PhotosRepositoryImpl(val movieDatabaseService: MovieDatabaseService) : PhotosRepository {
 
 
-    override fun getMovieScenes(movieId: String): LiveData<PhotosStatus> {
-
-        val status = MutableLiveData<PhotosStatus>()
+    override fun getMovieScenes(movieId: String, photosStatus: (PhotosStatus) -> Unit){
 
         movieDatabaseService.getMovieScenes(movieId).enqueue(object: Callback<SceneModel>{
             override fun onResponse(call: Call<SceneModel>, response: Response<SceneModel>) {
                 if(response.isSuccessful){
-                    status.value = response.body()?.let { PhotosStatus.Success(it) }
+                    photosStatus(PhotosStatus.Success(response.body()!!))
                 }else{
-                    status.value = PhotosStatus.NotFound
+                    photosStatus(PhotosStatus.NotFound)
                 }
             }
 
             override fun onFailure(call: Call<SceneModel>, t: Throwable) {
-                status.value = PhotosStatus.Error(t)
+                photosStatus(PhotosStatus.Error(t))
             }
         })
-
-        return status
     }
 }

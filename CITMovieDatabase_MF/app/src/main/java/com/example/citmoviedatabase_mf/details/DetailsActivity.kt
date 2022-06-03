@@ -118,9 +118,9 @@ class DetailsActivity() : AppCompatActivity() {
 
                     showMoreShowLess()
                 }
-                is DetailsViewModelStatus.NotFound ->{
-                    Toast.makeText(this, "Não foi possível carregar os detalhes deste filme", Toast.LENGTH_LONG).show()
-                }
+//                is DetailsViewModelStatus.NotFound ->{
+//                    Toast.makeText(this, "Não foi possível carregar os detalhes deste filme", Toast.LENGTH_LONG).show()
+//                }
                 is DetailsViewModelStatus.Error ->{
                     Toast.makeText(this, it.error.message, Toast.LENGTH_LONG).show()
                 }

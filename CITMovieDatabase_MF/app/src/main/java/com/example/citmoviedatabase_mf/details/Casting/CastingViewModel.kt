@@ -2,8 +2,10 @@ package com.example.citmoviedatabase_mf.details.Casting
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.citmoviedatabase_mf.repository.casting.CastingRepository
 import com.example.citmoviedatabase_mf.repository.casting.CastingStatus
+import kotlinx.coroutines.launch
 
 class CastingViewModel (private val castingRepository: CastingRepository) : ViewModel() {
 
@@ -11,16 +13,16 @@ class CastingViewModel (private val castingRepository: CastingRepository) : View
 
     fun getMovieCredits(movieId: String){
 
-        castingRepository.getMovieCredits(movieId){
-            when(it){
+        viewModelScope.launch {
+            when(val response = castingRepository.getMovieCredits(movieId)){
                 is CastingStatus.Success ->{
-                    status.value = CastingViewModelStatus.Success(it.casting)
+                    status.value = CastingViewModelStatus.Success(response.casting)
                 }
                 is CastingStatus.NotFound ->{
                     status.value = CastingViewModelStatus.NotFound
                 }
                 is CastingStatus.Error ->{
-                    status.value = CastingViewModelStatus.Error(it.error)
+                    status.value = CastingViewModelStatus.Error(response.error)
                 }
             }
         }

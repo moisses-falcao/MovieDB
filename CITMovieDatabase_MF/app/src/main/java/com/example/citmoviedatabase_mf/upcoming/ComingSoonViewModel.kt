@@ -2,8 +2,10 @@ package com.example.citmoviedatabase_mf.upcoming
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.citmoviedatabase_mf.repository.comingsoon.ComingSoonRepository
 import com.example.citmoviedatabase_mf.repository.comingsoon.ComingSoonStatus
+import kotlinx.coroutines.launch
 
 
 class ComingSoonViewModel(private val comingSoonRepository: ComingSoonRepository) : ViewModel() {
@@ -12,16 +14,17 @@ class ComingSoonViewModel(private val comingSoonRepository: ComingSoonRepository
 
     fun getAllMoviesUpcoming() {
 
-        comingSoonRepository.getAllMoviesUpcoming {
-            when (it) {
+        viewModelScope.launch {
+
+            when (val response = comingSoonRepository.getAllMoviesUpcoming()) {
                 is ComingSoonStatus.Success -> {
-                    status.value = ComingSoonViewModelStatus.Success(it.listComingSoon)
+                    status.value = ComingSoonViewModelStatus.Success(response.listComingSoon)
                 }
                 is ComingSoonStatus.NotFound -> {
                     status.value = ComingSoonViewModelStatus.NotFound
                 }
                 is ComingSoonStatus.Error -> {
-                    status.value = ComingSoonViewModelStatus.Error(it.error)
+                    status.value = ComingSoonViewModelStatus.Error(response.error)
                 }
             }
         }

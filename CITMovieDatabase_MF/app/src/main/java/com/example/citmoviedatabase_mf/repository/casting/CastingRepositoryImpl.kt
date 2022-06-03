@@ -1,29 +1,21 @@
 package com.example.citmoviedatabase_mf.repository.casting
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
-import com.example.citmoviedatabase_mf.models.CastModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class CastingRepositoryImpl(val movieDatabaseService: MovieDatabaseService) : CastingRepository{
 
-    override fun getMovieCredits(movieId: String, castingStatus: (CastingStatus) -> Unit) {
+    override suspend fun getMovieCredits(movieId: String) : CastingStatus {
 
-        movieDatabaseService.getMovieCredits(movieId).enqueue(object : Callback<CastModel> {
-            override fun onResponse(call: Call<CastModel>, response: Response<CastModel>) {
-                if(response.isSuccessful){
-                    castingStatus(CastingStatus.Success(response.body()!!))
-                }else{
-                    castingStatus(CastingStatus.NotFound)
-                }
-            }
+        return try {
+            val response = movieDatabaseService.getMovieCredits(movieId)
 
-            override fun onFailure(call: Call<CastModel>, t: Throwable) {
-                castingStatus(CastingStatus.Error(t))
+            if(response.cast.isNotEmpty()){
+                CastingStatus.Success(response)
+            }else{
+                CastingStatus.NotFound
             }
-        })
+        }catch(e: Exception){
+            CastingStatus.Error(e)
+        }
     }
 }

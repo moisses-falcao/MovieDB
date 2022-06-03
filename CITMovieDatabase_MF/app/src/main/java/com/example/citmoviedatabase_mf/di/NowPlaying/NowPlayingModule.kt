@@ -7,8 +7,8 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val nowPlayingModule = module {
-    single {
-        NowPlayingRepositoryImpl(get()) as NowPlayingRepository
+    single<NowPlayingRepository> {
+        NowPlayingRepositoryImpl(get())
     }
 
     viewModel {

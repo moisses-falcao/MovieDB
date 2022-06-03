@@ -2,9 +2,9 @@ package com.example.citmoviedatabase_mf.repository.details
 
 interface DetailsRepository {
 
-    fun getMovieDetails(movieId: String, detailsStatus: (DetailsStatus) -> Unit)
+    suspend fun getMovieDetails(movieId: String) : DetailsStatus
 
-    fun getMovieCredits(movieId: String, detailsStatus: (DetailsStatus) -> Unit)
+    suspend fun getMovieCredits(movieId: String) : DetailsStatus
 
-    fun getMovieScenes(movieId: String, detailsStatus: (DetailsStatus) -> Unit)
+    suspend fun getMovieScenes(movieId: String) : DetailsStatus
 }

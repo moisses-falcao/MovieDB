@@ -2,8 +2,10 @@ package com.example.citmoviedatabase_mf.details
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.citmoviedatabase_mf.repository.details.DetailsRepository
 import com.example.citmoviedatabase_mf.repository.details.DetailsStatus
+import kotlinx.coroutines.launch
 
 
 class DetailsViewModel(private val detailsRepository: DetailsRepository): ViewModel() {
@@ -14,16 +16,13 @@ class DetailsViewModel(private val detailsRepository: DetailsRepository): ViewMo
 
     fun getMovieDetails(movieId: String){
 
-        detailsRepository.getMovieDetails(movieId){
-            when(it){
+        viewModelScope.launch{
+            when(val response = detailsRepository.getMovieDetails(movieId)){
                 is DetailsStatus.SuccessDetails ->{
-                    statusDetails.value = DetailsViewModelStatus.SuccessDetails(it.movieDetails)
-                }
-                is DetailsStatus.NotFound ->{
-                    statusDetails.value = DetailsViewModelStatus.NotFound
+                    statusDetails.value = DetailsViewModelStatus.SuccessDetails(response.movieDetails)
                 }
                 is DetailsStatus.Error ->{
-                    statusDetails.value = DetailsViewModelStatus.Error(it.error)
+                    statusDetails.value = DetailsViewModelStatus.Error(response.error)
                 }
                 else -> {}
             }
@@ -32,16 +31,16 @@ class DetailsViewModel(private val detailsRepository: DetailsRepository): ViewMo
 
     fun getMovieCredits(movieId: String){
 
-        detailsRepository.getMovieCredits(movieId){
-            when(it){
+        viewModelScope.launch{
+            when(val response = detailsRepository.getMovieCredits(movieId)){
                 is DetailsStatus.SuccessCredits ->{
-                    statusCredits.value = DetailsViewModelStatus.SuccessCredits(it.casting)
+                    statusCredits.value = DetailsViewModelStatus.SuccessCredits(response.casting)
                 }
                 is DetailsStatus.NotFound ->{
                     statusCredits.value = DetailsViewModelStatus.NotFound
                 }
                 is DetailsStatus.Error ->{
-                    statusCredits.value = DetailsViewModelStatus.Error(it.error)
+                    statusCredits.value = DetailsViewModelStatus.Error(response.error)
                 }
                 else -> {}
             }
@@ -50,16 +49,16 @@ class DetailsViewModel(private val detailsRepository: DetailsRepository): ViewMo
 
     fun getMovieScenes(movieId: String){
 
-        detailsRepository.getMovieScenes(movieId){
-            when(it){
+        viewModelScope.launch{
+            when(val response = detailsRepository.getMovieScenes(movieId)){
                 is DetailsStatus.SuccessScenes ->{
-                    statusScenes.value = DetailsViewModelStatus.SuccessScenes(it.scenes)
+                    statusScenes.value = DetailsViewModelStatus.SuccessScenes(response.scenes)
                 }
                 is DetailsStatus.NotFound ->{
                     statusScenes.value = DetailsViewModelStatus.NotFound
                 }
                 is DetailsStatus.Error ->{
-                    statusScenes.value = DetailsViewModelStatus.Error(it.error)
+                    statusScenes.value = DetailsViewModelStatus.Error(response.error)
                 }
                 else -> {}
             }

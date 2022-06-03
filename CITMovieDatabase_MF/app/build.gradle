@@ -78,4 +78,12 @@ dependencies {
     //Mockk
     testImplementation "io.mockk:mockk:1.12.4"
 
+    //To use launchActivity in UI Test
+    androidTestImplementation 'androidx.test:core-ktx:1.4.0'
+
+    def fragment_version = "1.4.1"
+    debugImplementation("androidx.fragment:fragment-testing:$fragment_version")
+
+    //Test coroutines
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1'
 }

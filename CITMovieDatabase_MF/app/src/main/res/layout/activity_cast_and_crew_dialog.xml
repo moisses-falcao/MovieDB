@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".details.Casting.CastingActivity">
+    tools:context=".details.Casting.CastingActivity"
+    android:id="@+id/castingActivity"
+    >
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tb_castAndCrewToolbar"

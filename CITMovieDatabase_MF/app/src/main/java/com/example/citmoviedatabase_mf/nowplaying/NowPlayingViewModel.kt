@@ -3,6 +3,7 @@ package com.example.citmoviedatabase_mf.nowplaying
 import androidx.lifecycle.*
 import com.example.citmoviedatabase_mf.repository.nowplaying.NowPlayingRepository
 import com.example.citmoviedatabase_mf.repository.nowplaying.NowPlayingStatus
+import kotlinx.coroutines.launch
 
 class NowPlayingViewModel(private val nowPlayingRepository: NowPlayingRepository): ViewModel() {
 
@@ -10,19 +11,20 @@ class NowPlayingViewModel(private val nowPlayingRepository: NowPlayingRepository
 
     fun getAllMoviesNowPlaying() {
 
-        nowPlayingRepository.getAllMoviesNowPlaying(nowPlayingStatus = {
-            when(it){
+        viewModelScope.launch {
+
+            when(val response = nowPlayingRepository.getAllMoviesNowPlaying()){
                 is NowPlayingStatus.Success ->{
-                    status.value = NowPlayingViewModelStatus.Success(it.listNowPlaying)
+                    status.value = NowPlayingViewModelStatus.Success(response.listNowPlaying)
                 }
                 is NowPlayingStatus.NotFound ->{
                     status.value = NowPlayingViewModelStatus.NotFound
                 }
                 is NowPlayingStatus.Error ->{
-                    status.value = NowPlayingViewModelStatus.Error(it.error)
+                    status.value = NowPlayingViewModelStatus.Error(response.error)
                 }
             }
-        })
+        }
     }
 }
 

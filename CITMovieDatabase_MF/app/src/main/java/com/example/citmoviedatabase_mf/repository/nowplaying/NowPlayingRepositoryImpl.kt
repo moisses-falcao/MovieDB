@@ -1,29 +1,24 @@
 package com.example.citmoviedatabase_mf.repository.nowplaying
 
 import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
-import com.example.citmoviedatabase_mf.models.Results
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import java.lang.Exception
 
-class NowPlayingRepositoryImpl(val movieDatabaseService: MovieDatabaseService): NowPlayingRepository{
+class NowPlayingRepositoryImpl(val movieDatabaseService: MovieDatabaseService) : NowPlayingRepository {
 
 
-    override fun getAllMoviesNowPlaying(nowPlayingStatus: (NowPlayingStatus) -> Unit) {
+    override suspend fun getAllMoviesNowPlaying(): NowPlayingStatus {
 
-        movieDatabaseService.getAllMoviesNowPlaying().enqueue(object: Callback<Results>{
-            override fun onResponse(call: Call<Results>, response: Response<Results>) {
-                if(response.isSuccessful){
-                    nowPlayingStatus(NowPlayingStatus.Success(response.body()!!))
-                }else{
-                    nowPlayingStatus(NowPlayingStatus.NotFound)
-                }
+        try {
+            val response = movieDatabaseService.getAllMoviesNowPlaying()
+
+            if (response.results.isNotEmpty()) {
+                return NowPlayingStatus.Success(response)
+            } else {
+                return NowPlayingStatus.NotFound
             }
-
-            override fun onFailure(call: Call<Results>, t: Throwable) {
-                nowPlayingStatus(NowPlayingStatus.Error(t))
-            }
-        })
+        }catch(e: Exception){
+            return NowPlayingStatus.Error(e)
+        }
     }
 }
 

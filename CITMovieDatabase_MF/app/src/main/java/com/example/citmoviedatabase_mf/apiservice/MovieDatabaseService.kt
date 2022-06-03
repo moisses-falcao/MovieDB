@@ -9,17 +9,17 @@ import retrofit2.http.Path
 interface MovieDatabaseService {
 
     @GET("now_playing?$API_KEY")
-    fun getAllMoviesNowPlaying() : Call<Results>
+    suspend fun getAllMoviesNowPlaying() : Results
 
     @GET("upcoming?$API_KEY")
-    fun getAllMoviesUpcoming() : Call<Results>
+    suspend fun getAllMoviesUpcoming() : Results
 
     @GET("{movie_id}?$API_KEY")
-    fun getMovieDetails(@Path("movie_id")todoId: String) : Call<MovieDetailsModel>
+    suspend fun getMovieDetails(@Path("movie_id")todoId: String) : MovieDetailsModel
 
     @GET("{movie_id}/credits?$API_KEY")
-    fun getMovieCredits(@Path("movie_id")todoId: String) : Call<CastModel>
+    suspend fun getMovieCredits(@Path("movie_id")todoId: String) : CastModel
 
     @GET("{movie_id}/images?$API_KEY")
-    fun getMovieScenes(@Path("movie_id")todoId: String) : Call<SceneModel>
+    suspend fun getMovieScenes(@Path("movie_id")todoId: String) : SceneModel
 }

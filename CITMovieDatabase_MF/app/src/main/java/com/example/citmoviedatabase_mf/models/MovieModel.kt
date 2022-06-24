@@ -1,9 +1,14 @@
 package com.example.citmoviedatabase_mf.models
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.example.citmoviedatabase_mf.models.GenreModel
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "movies")
 data class MovieModel(
+
+    @PrimaryKey
     val id: Int,
     @SerializedName("vote_average")
     val voteAverage: Double,
@@ -18,6 +23,6 @@ data class MovieModel(
     val overview: String,
     @SerializedName("release_date")
     val releaseDate: String,
-    @SerializedName("genre_ids")
-    val genres: List<Int>? = emptyList()
+    //@SerializedName("genre_ids")
+    //val genres: List<Int>? = emptyList()
 )

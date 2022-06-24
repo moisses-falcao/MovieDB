@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".details.photos.PhotosActivity"
+    tools:context="com.example.citmoviedatabase_mf.ui.details.photos.PhotosActivity"
     android:id="@+id/scenesActivity"
     >
 
@@ -13,7 +13,7 @@
         android:id="@+id/tb_PhotoToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="Cast &amp; Crew"
+        app:title="Photos and Scenes"
         android:background="@color/red"
         app:titleTextColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"

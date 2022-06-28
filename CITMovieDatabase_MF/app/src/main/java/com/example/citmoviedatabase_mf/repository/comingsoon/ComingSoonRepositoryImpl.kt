@@ -1,8 +1,11 @@
 package com.example.citmoviedatabase_mf.repository.comingsoon
 
 import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
+import com.example.citmoviedatabase_mf.local.MovieDatabaseDAO
+import com.example.citmoviedatabase_mf.models.MovieModel
+import com.example.citmoviedatabase_mf.repository.nowplaying.NowPlayingStatus
 
-class ComingSoonRepositoryImpl(private val movieDatabaseService: MovieDatabaseService) : ComingSoonRepository {
+class ComingSoonRepositoryImpl(private val movieDatabaseService: MovieDatabaseService, private val movieDatabaseDAO: MovieDatabaseDAO) : ComingSoonRepository {
     
     override suspend fun getAllMoviesUpcoming() : ComingSoonStatus {
 
@@ -15,6 +18,36 @@ class ComingSoonRepositoryImpl(private val movieDatabaseService: MovieDatabaseSe
                 ComingSoonStatus.NotFound
             }
         }catch(e: Exception){
+            ComingSoonStatus.Error(e)
+        }
+    }
+
+    override suspend fun favoriteMovie(movieModel: MovieModel): ComingSoonStatus {
+        return try {
+            movieDatabaseDAO.favoriteMovie(movieModel)
+
+            ComingSoonStatus.SuccessInsertOnFavorites
+        } catch (e: Exception){
+            ComingSoonStatus.Error(e)
+        }
+    }
+
+    override suspend fun disfavorMovie(movieModel: MovieModel): ComingSoonStatus {
+        return try {
+            movieDatabaseDAO.disfavorMovie(movieModel)
+
+            ComingSoonStatus.SuccessDeleteFromFavorites
+        } catch (e: Exception){
+            ComingSoonStatus.Error(e)
+        }
+    }
+
+    override fun getFavoriteList(): ComingSoonStatus {
+        return try {
+            val response = movieDatabaseDAO.getFavoriteList()
+
+            ComingSoonStatus.SuccessFavoriteList(response)
+        }catch (e: Exception){
             ComingSoonStatus.Error(e)
         }
     }

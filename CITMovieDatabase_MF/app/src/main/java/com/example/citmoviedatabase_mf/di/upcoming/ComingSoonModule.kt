@@ -8,7 +8,7 @@ import org.koin.dsl.module
 
 val comingSoonModule = module {
     single<ComingSoonRepository> {
-        ComingSoonRepositoryImpl(get())
+        ComingSoonRepositoryImpl(get(), get())
     }
 
     viewModel {

@@ -1,22 +1,21 @@
 package com.example.citmoviedatabase_mf.ui.nowplaying
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.compose.ui.graphics.Color
-import androidx.core.graphics.toColorInt
 import androidx.lifecycle.lifecycleScope
-import com.example.citmoviedatabase_mf.R
 import com.example.citmoviedatabase_mf.basefragment.BaseFragment
 import com.example.citmoviedatabase_mf.databinding.FragmentNowPlayingBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import com.example.citmoviedatabase_mf.ui.activities.main.MainActivity
-import kotlinx.coroutines.coroutineScope
+import com.example.citmoviedatabase_mf.models.MovieModel
+import kotlinx.coroutines.flow.cancel
+import kotlinx.coroutines.flow.cancellable
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NowPlayingFragment() : BaseFragment<FragmentNowPlayingBinding, NowPlayingViewModel>() {
 
@@ -47,23 +46,28 @@ class NowPlayingFragment() : BaseFragment<FragmentNowPlayingBinding, NowPlayingV
         setupRecyclerView()
     }
 
-    private fun favoriteMovie() {
-        adapter.holdToFavorite { movieModel ->
+    private fun favoriteMovie(movieModel: MovieModel) {
 
-            viewModel.favoriteMovie(movieModel)
-            Toast.makeText(context, movieModel.title + " " + "adicionado à lista de favoritos com sucesso!", Toast.LENGTH_LONG).show()
-        }
+        viewModel.favoriteMovie(movieModel)
+
+        Toast.makeText(
+            context,
+            movieModel.title + " " + "adicionado à lista de favoritos com sucesso!",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
-    private fun disfavorMovie(){
-        adapter.holdToFavorite { movieModel ->
+    private fun disfavorMovie(movieModel: MovieModel) {
 
-            viewModel.disfavorMovie(movieModel)
-            Toast.makeText(context, movieModel.title + " " + "removido da lista de favoritos!", Toast.LENGTH_LONG).show()
-        }
+        viewModel.disfavorMovie(movieModel)
+
+        Toast.makeText(
+            context,
+            movieModel.title + " " + "removido da lista de favoritos!",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun setupRecyclerView() {
 
         viewModel.getAllMoviesNowPlaying()
@@ -76,25 +80,36 @@ class NowPlayingFragment() : BaseFragment<FragmentNowPlayingBinding, NowPlayingV
                     adapter = NowPlayingAdapter(it.listNowPlaying.results)
                     binding.rvNowPlaying.adapter = adapter
 
-                    adapter.holdToFavorite {movieModel ->
-                        viewModel.statusFavoriteList.observe(viewLifecycleOwner){status ->
 
-                            when(status){
-                                is NowPlayingViewModelStatus.SuccessFavoriteList ->{
+                        lifecycleScope.launch {
+                            viewModel.statusFavoriteList.collect{ status ->
 
-                                    if(status.favoriteList.contains(movieModel)){
-                                        disfavorMovie()
-                                    }else{
-                                        favoriteMovie()
+                                when (status) {
+                                    is NowPlayingViewModelStatus.SuccessFavoriteList -> {
+
+                                        adapter.holdToFavorite { movieModel ->
+                                            if (status.favoriteList.contains(movieModel)) {
+                                                disfavorMovie(movieModel)
+                                                viewModel.statusFavoriteList
+                                            } else {
+                                                favoriteMovie(movieModel)
+                                            }
+                                        }
                                     }
-                                }
-                                is NowPlayingViewModelStatus.Error ->{
-                                    Toast.makeText(context, movieModel.title + status.error.message, Toast.LENGTH_LONG).show()
+                                    is NowPlayingViewModelStatus.Error -> {
+                                        Log.e("ERRO", status.error.toString())
+                                        Toast.makeText(
+                                            context,
+                                            status.error.message,
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
+                                    else -> {
 
+                                    }
                                 }
                             }
                         }
-                    }
                 }
                 is NowPlayingViewModelStatus.NotFound -> {
                     Toast.makeText(
@@ -106,6 +121,7 @@ class NowPlayingFragment() : BaseFragment<FragmentNowPlayingBinding, NowPlayingV
                 is NowPlayingViewModelStatus.Error -> {
                     Toast.makeText(context, it.error.message, Toast.LENGTH_LONG).show()
                 }
+                else -> {}
             }
         }
 //        viewModel.getAllMoviesNowPlaying().observe(viewLifecycleOwner, Observer {

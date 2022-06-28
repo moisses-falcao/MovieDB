@@ -2,7 +2,6 @@ package com.example.citmoviedatabase_mf.ui.nowplaying
 
 import com.example.citmoviedatabase_mf.models.MovieModel
 import com.example.citmoviedatabase_mf.models.Results
-import com.example.citmoviedatabase_mf.repository.nowplaying.NowPlayingStatus
 
 sealed class NowPlayingViewModelStatus{
 

@@ -104,7 +104,7 @@ class NowPlayingViewModelTes{
     companion object {
 
         val LIST_NOW_PLAYING = Results(results = listOf(
-            MovieModel(1, 1.0, "dfgs", "erfger", 2.2, "4t5432", "retgewr", "erte", "sdafwe", emptyList())))
+            MovieModel(1, 1.0, "dfgs", "erfger", 2.2, "4t5432", "retgewr", "erte", "sdafwe")))
 
         val NOW_PLAYING_VIEW_MODEL_STATUS = NowPlayingViewModelStatus.Success(LIST_NOW_PLAYING)
 

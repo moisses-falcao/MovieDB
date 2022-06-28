@@ -43,14 +43,11 @@ class NowPlayingRepositoryImpl(val movieDatabaseService: MovieDatabaseService, v
         }
     }
 
-    override suspend fun getFavoriteList(): NowPlayingStatus {
+    override fun getFavoriteList(): NowPlayingStatus {
         return try {
             val response = movieDatabaseDAO.getFavoriteList()
-            if (response.isNotEmpty()){
-                NowPlayingStatus.SuccessFavoriteList(response)
-            }else{
-                NowPlayingStatus.EmptyList
-            }
+
+            NowPlayingStatus.SuccessFavoriteList(response)
         }catch (e: Exception){
             NowPlayingStatus.Error(e)
         }

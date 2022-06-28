@@ -2,6 +2,7 @@ package com.example.citmoviedatabase_mf.local
 
 import androidx.room.*
 import com.example.citmoviedatabase_mf.models.MovieModel
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MovieDatabaseDAO {
@@ -13,5 +14,5 @@ interface MovieDatabaseDAO {
     suspend fun disfavorMovie(movieModel: MovieModel)
 
     @Query("SELECT * FROM movies")
-    suspend fun getFavoriteList() : List<MovieModel>
+    fun getFavoriteList() : Flow<List<MovieModel>>
 }

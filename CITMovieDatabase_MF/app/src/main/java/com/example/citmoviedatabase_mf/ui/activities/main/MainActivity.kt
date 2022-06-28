@@ -1,6 +1,5 @@
 package com.example.citmoviedatabase_mf.ui.activities.main
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.res.Resources
 import android.os.Bundle
@@ -10,11 +9,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.example.citmoviedatabase_mf.databinding.ActivityMainBinding
 import com.example.citmoviedatabase_mf.databinding.FavoriteDialogBinding
+import com.example.citmoviedatabase_mf.models.MovieModel
 import com.example.citmoviedatabase_mf.ui.PagerAdapter
-import com.example.citmoviedatabase_mf.ui.nowplaying.NowPlayingAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,14 +42,19 @@ class MainActivity : AppCompatActivity() {
         viewPager = binding.vp2MainViewPager
         viewPager.adapter = pagerAdapter
 
-        TabLayoutMediator(mainTabLayout, viewPager){tab, position ->
-            tab.text = when(position){
-                0 -> {"Now Playing"}
-                1 -> {"Coming Soon "}
-                else -> {throw Resources.NotFoundException("Position not found")}
+        TabLayoutMediator(mainTabLayout, viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> {
+                    "Now Playing"
+                }
+                1 -> {
+                    "Coming Soon "
+                }
+                else -> {
+                    throw Resources.NotFoundException("Position not found")
+                }
             }
         }.attach()
-
 
     }
 
@@ -62,7 +67,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun setupDialog(){
+    private fun setupDialog() {
         dialogBinding = FavoriteDialogBinding.inflate(layoutInflater)
 
         val dialog = BottomSheetDialog(this)
@@ -77,25 +82,47 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupRecyclerView(dialog: Dialog) = lifecycleScope.launch{
+    private fun setupRecyclerView(dialog: Dialog) = lifecycleScope.launch {
         viewModel.getFavoriteList()
 
-        viewModel.status.collect{
-            when(it){
-                is MainViewModelStatus.Success ->{
+        viewModel.status.collect {
+            when (it) {
+                is MainViewModelStatus.Success -> {
+
                     mainAdapter = MainAdapter(it.favoriteList)
                     dialogBinding.rvFavoriteRecyclerView.adapter = mainAdapter
 
-                    mainAdapter.notifyDataSetChanged()
+                    mainAdapter.holdToFavorite { movieModel ->
+                        disfavorMovie(movieModel)
+                    }
                 }
-                is MainViewModelStatus.EmptyList ->{
+                is MainViewModelStatus.EmptyList -> {
+
+                    delay(3000)
+
                     dialog.hide()
-                    Toast.makeText(this@MainActivity, "Lista de favoritos vazia, clique e segure em um filme para favorita-lo", Toast.LENGTH_LONG).show()
+
+                    Toast.makeText(
+                        applicationContext,
+                        "Lista de favoritos vazia, clique e segure em um filme se deseja favorita-lo",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
-                is MainViewModelStatus.Error ->{
-                    Toast.makeText(this@MainActivity, it.error.message, Toast.LENGTH_LONG).show()
+                is MainViewModelStatus.Error -> {
+                    Toast.makeText(applicationContext, it.error.message, Toast.LENGTH_LONG).show()
                 }
+                else -> {}
             }
         }
+    }
+
+    private fun disfavorMovie(movieModel: MovieModel) {
+        viewModel.disfavorMovie(movieModel)
+
+        Toast.makeText(
+            this,
+            movieModel.title + " " + "removido da lista de favoritos!",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }

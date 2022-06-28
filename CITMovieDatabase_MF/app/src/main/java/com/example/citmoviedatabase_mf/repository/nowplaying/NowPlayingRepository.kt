@@ -11,5 +11,5 @@ interface NowPlayingRepository {
 
     suspend fun disfavorMovie(movieModel: MovieModel) : NowPlayingStatus
 
-    suspend fun getFavoriteList() : NowPlayingStatus
+    fun getFavoriteList() : NowPlayingStatus
 }

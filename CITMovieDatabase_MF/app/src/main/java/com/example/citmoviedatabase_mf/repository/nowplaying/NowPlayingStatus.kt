@@ -2,6 +2,7 @@ package com.example.citmoviedatabase_mf.repository.nowplaying
 
 import com.example.citmoviedatabase_mf.models.MovieModel
 import com.example.citmoviedatabase_mf.models.Results
+import kotlinx.coroutines.flow.Flow
 
 sealed class NowPlayingStatus {
     object NotFound : NowPlayingStatus()
@@ -10,6 +11,5 @@ sealed class NowPlayingStatus {
 
     object SuccessInsertOnFavorites : NowPlayingStatus()
     object SuccessDeleteFromFavorites : NowPlayingStatus()
-    object EmptyList: NowPlayingStatus()
-    data class SuccessFavoriteList(val favoriteList: List<MovieModel>) : NowPlayingStatus()
+    data class SuccessFavoriteList(val favoriteList: Flow<List<MovieModel>>) : NowPlayingStatus()
 }

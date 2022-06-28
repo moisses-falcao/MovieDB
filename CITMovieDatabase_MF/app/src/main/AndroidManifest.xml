@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 
     <application
         android:name="com.example.citmoviedatabase_mf.di.MyApp"
@@ -15,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CITMovieDatabase_MF"
         tools:ignore="MissingClass">
+        <receiver
+            android:name=".notification.Notification"
+            android:enabled="true"/>
         <activity
             android:name="com.example.citmoviedatabase_mf.ui.composeactivity.LoadingComposeActivity"
             android:exported="true"

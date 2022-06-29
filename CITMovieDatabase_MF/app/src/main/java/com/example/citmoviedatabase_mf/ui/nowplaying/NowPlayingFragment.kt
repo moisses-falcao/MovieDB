@@ -1,21 +1,18 @@
 package com.example.citmoviedatabase_mf.ui.nowplaying
 
-import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context.ALARM_SERVICE
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.format.DateFormat.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.lifecycleScope
 import com.example.citmoviedatabase_mf.basefragment.BaseFragment
 import com.example.citmoviedatabase_mf.constants.Constants.CHANNEL_ID
@@ -24,9 +21,11 @@ import com.example.citmoviedatabase_mf.constants.Constants.NOTIFICATION_ID
 import com.example.citmoviedatabase_mf.databinding.FragmentNowPlayingBinding
 import com.example.citmoviedatabase_mf.models.MovieModel
 import com.example.citmoviedatabase_mf.notification.Notification
+import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import android.text.format.DateFormat
 import java.util.*
 
 class NowPlayingFragment() : BaseFragment<FragmentNowPlayingBinding, NowPlayingViewModel>() {
@@ -62,6 +61,7 @@ class NowPlayingFragment() : BaseFragment<FragmentNowPlayingBinding, NowPlayingV
         scheduleNotification()
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun scheduleNotification() {
 
         val intent = Intent(context, Notification::class.java)
@@ -70,21 +70,28 @@ class NowPlayingFragment() : BaseFragment<FragmentNowPlayingBinding, NowPlayingV
         intent.putExtra(title, title)
         intent.putExtra(message, message)
 
-        val pendingIntent = PendingIntent.getBroadcast(context, NOTIFICATION_ID, intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getBroadcast(
+            context, NOTIFICATION_ID, intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
 
         val alarmManager = activity?.getSystemService(ALARM_SERVICE) as AlarmManager
 
         val calendar = GregorianCalendar.getInstance().apply {
-            if (get(Calendar.HOUR_OF_DAY) >= HOUR_TO_SHOW_PUSH){
+            if (get(Calendar.HOUR_OF_DAY) >= HOUR_TO_SHOW_PUSH) {
                 add(Calendar.DAY_OF_MONTH, 1)
             }
-            set(Calendar.HOUR_OF_DAY, HOUR_TO_SHOW_PUSH)
-            set(Calendar.MINUTE, 0)
+            set(Calendar.HOUR_OF_DAY, 14)
+            set(Calendar.MINUTE, 15)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
         }
 
+        alarmManager.setAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            pendingIntent
+        )
         alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
@@ -101,7 +108,8 @@ class NowPlayingFragment() : BaseFragment<FragmentNowPlayingBinding, NowPlayingV
         val importance = NotificationManager.IMPORTANCE_DEFAULT
         val channel = NotificationChannel(CHANNEL_ID, name, importance)
         channel.description = description
-        val notificationManager = activity?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            activity?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
     }
 
@@ -140,35 +148,35 @@ class NowPlayingFragment() : BaseFragment<FragmentNowPlayingBinding, NowPlayingV
                     binding.rvNowPlaying.adapter = adapter
 
 
-                        lifecycleScope.launch {
-                            viewModel.statusFavoriteList.collect{ status ->
+                    lifecycleScope.launch {
+                        viewModel.statusFavoriteList.collect { status ->
 
-                                when (status) {
-                                    is NowPlayingViewModelStatus.SuccessFavoriteList -> {
+                            when (status) {
+                                is NowPlayingViewModelStatus.SuccessFavoriteList -> {
 
-                                        adapter.holdToFavorite { movieModel ->
-                                            if (status.favoriteList.contains(movieModel)) {
-                                                disfavorMovie(movieModel)
-                                                viewModel.statusFavoriteList
-                                            } else {
-                                                favoriteMovie(movieModel)
-                                            }
+                                    adapter.holdToFavorite { movieModel ->
+                                        if (status.favoriteList.contains(movieModel)) {
+                                            disfavorMovie(movieModel)
+                                            viewModel.statusFavoriteList
+                                        } else {
+                                            favoriteMovie(movieModel)
                                         }
                                     }
-                                    is NowPlayingViewModelStatus.Error -> {
-                                        Log.e("ERRO", status.error.toString())
-                                        Toast.makeText(
-                                            context,
-                                            status.error.message,
-                                            Toast.LENGTH_LONG
-                                        ).show()
-                                    }
-                                    else -> {
+                                }
+                                is NowPlayingViewModelStatus.Error -> {
+                                    Log.e("ERRO", status.error.toString())
+                                    Toast.makeText(
+                                        context,
+                                        status.error.message,
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                                else -> {
 
-                                    }
                                 }
                             }
                         }
+                    }
                 }
                 is NowPlayingViewModelStatus.NotFound -> {
                     Toast.makeText(

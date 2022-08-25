@@ -1,6 +1,6 @@
 package com.example.citmoviedatabase_mf.ui.activities.main
 
-import com.example.citmoviedatabase_mf.models.MovieModel
+import com.ciandt.service.models.MovieModel
 
 sealed class MainViewModelStatus {
     object EmptyList : MainViewModelStatus()

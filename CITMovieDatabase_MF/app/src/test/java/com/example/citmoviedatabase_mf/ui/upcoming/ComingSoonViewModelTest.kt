@@ -2,8 +2,8 @@ package com.example.citmoviedatabase_mf.ui.upcoming
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.example.citmoviedatabase_mf.models.MovieModel
-import com.example.citmoviedatabase_mf.models.Results
+import com.ciandt.service.models.MovieModel
+import com.ciandt.service.models.Results
 import com.example.citmoviedatabase_mf.repository.comingsoon.ComingSoonRepository
 import com.example.citmoviedatabase_mf.repository.comingsoon.ComingSoonStatus
 import io.mockk.*

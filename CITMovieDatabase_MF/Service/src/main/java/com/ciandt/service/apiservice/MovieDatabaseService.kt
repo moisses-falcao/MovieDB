@@ -1,8 +1,10 @@
-package com.example.citmoviedatabase_mf.apiservice
+package com.ciandt.service.apiservice
 
-import com.example.citmoviedatabase_mf.constants.Constants.API_KEY
-import com.example.citmoviedatabase_mf.models.*
-import retrofit2.Call
+import com.ciandt.service.constants.Constants.API_KEY
+import com.ciandt.service.models.CastModel
+import com.ciandt.service.models.MovieDetailsModel
+import com.ciandt.service.models.Results
+import com.ciandt.service.models.SceneModel
 import retrofit2.http.GET
 import retrofit2.http.Path
 

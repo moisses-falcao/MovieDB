@@ -1,6 +1,6 @@
 package com.example.citmoviedatabase_mf.repository.casting
 
-import com.example.citmoviedatabase_mf.models.CastModel
+import com.ciandt.service.models.CastModel
 
 sealed class CastingStatus {
     data class Success(val casting: CastModel): CastingStatus()

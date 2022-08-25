@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "236888238706",
+    "project_id": "moviedb-16412",
+    "storage_bucket": "moviedb-16412.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236888238706:android:a16fbf698feb64858eb0eb",
+        "android_client_info": {
+          "package_name": "com.example.citmoviedatabase_mf"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236888238706-23pmde66g2ef0d1h0sbdlcp6jmhsndog.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBz9IVO_FMF1FhHn5lgC-S08rbBKE0g3cU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236888238706-23pmde66g2ef0d1h0sbdlcp6jmhsndog.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

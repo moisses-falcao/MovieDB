@@ -2,6 +2,7 @@ package com.example.citmoviedatabase_mf.ui.details
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.ciandt.service.models.*
 import com.example.citmoviedatabase_mf.models.*
 import com.example.citmoviedatabase_mf.repository.details.DetailsRepository
 import com.example.citmoviedatabase_mf.repository.details.DetailsStatus

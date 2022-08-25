@@ -1,6 +1,6 @@
 package com.example.citmoviedatabase_mf.repository.details
 
-import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
+import com.ciandt.service.apiservice.MovieDatabaseService
 
 class DetailsRepositoryImpl(val movieDatabaseService: MovieDatabaseService) : DetailsRepository {
 

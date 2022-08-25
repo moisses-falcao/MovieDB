@@ -1,6 +1,6 @@
 package com.example.citmoviedatabase_mf.repository.nowplaying
 
-import com.example.citmoviedatabase_mf.models.MovieModel
+import com.ciandt.service.models.MovieModel
 
 
 interface NowPlayingRepository {

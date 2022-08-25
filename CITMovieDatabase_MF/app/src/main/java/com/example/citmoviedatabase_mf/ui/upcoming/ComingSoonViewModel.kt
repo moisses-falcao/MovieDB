@@ -3,7 +3,7 @@ package com.example.citmoviedatabase_mf.ui.upcoming
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citmoviedatabase_mf.models.MovieModel
+import com.ciandt.service.models.MovieModel
 import com.example.citmoviedatabase_mf.repository.comingsoon.ComingSoonRepository
 import com.example.citmoviedatabase_mf.repository.comingsoon.ComingSoonStatus
 import com.example.citmoviedatabase_mf.repository.nowplaying.NowPlayingStatus

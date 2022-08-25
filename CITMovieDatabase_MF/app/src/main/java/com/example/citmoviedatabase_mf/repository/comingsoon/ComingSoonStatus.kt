@@ -1,7 +1,7 @@
 package com.example.citmoviedatabase_mf.repository.comingsoon
 
-import com.example.citmoviedatabase_mf.models.MovieModel
-import com.example.citmoviedatabase_mf.models.Results
+import com.ciandt.service.models.MovieModel
+import com.ciandt.service.models.Results
 import kotlinx.coroutines.flow.Flow
 
 sealed class ComingSoonStatus {

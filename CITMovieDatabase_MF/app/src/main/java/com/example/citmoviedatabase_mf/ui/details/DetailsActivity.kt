@@ -7,7 +7,7 @@ import android.view.View.GONE
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.citmoviedatabase_mf.ui.activities.main.MainActivity
-import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
+import com.ciandt.service.apiservice.MovieDatabaseService
 import com.example.citmoviedatabase_mf.databinding.ActivityDetailsBinding
 import com.example.citmoviedatabase_mf.ui.details.Casting.CastingActivity
 import com.example.citmoviedatabase_mf.ui.details.photos.PhotosActivity

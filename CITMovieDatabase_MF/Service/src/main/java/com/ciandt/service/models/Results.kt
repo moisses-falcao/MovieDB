@@ -1,4 +1,4 @@
-package com.example.citmoviedatabase_mf.models
+package com.ciandt.service.models
 
 data class Results(
     val results: List<MovieModel>

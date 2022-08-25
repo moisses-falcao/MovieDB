@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
+import com.ciandt.service.apiservice.MovieDatabaseService
 import com.example.citmoviedatabase_mf.databinding.ActivityCastAndCrewDialogBinding
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel

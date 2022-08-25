@@ -1,7 +1,7 @@
 package com.example.citmoviedatabase_mf.filters
 
-import com.example.citmoviedatabase_mf.models.GenreModel
-import com.example.citmoviedatabase_mf.models.MovieModel
+import com.ciandt.service.models.GenreModel
+import com.ciandt.service.models.MovieModel
 
 class Filters {
     private fun ordenarPorOrdemAlfabetica(list: List<MovieModel>) : List<MovieModel> {

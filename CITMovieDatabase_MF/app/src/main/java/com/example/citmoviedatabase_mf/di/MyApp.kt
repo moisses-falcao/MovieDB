@@ -8,6 +8,7 @@ import com.example.citmoviedatabase_mf.di.details.detailsModule
 import com.example.citmoviedatabase_mf.di.details.photos.photosModule
 import com.example.citmoviedatabase_mf.di.main.mainModule
 import com.example.citmoviedatabase_mf.di.upcoming.comingSoonModule
+import com.example.citmoviedatabase_mf.remoteconfig.RemoteConfigUtils
 import org.koin.android.BuildConfig
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -29,5 +30,8 @@ class MyApp : Application(){
 
             modules(networkModule, nowPlayingModule, comingSoonModule, detailsModule, castingModule, photosModule, databaseModule, mainModule)
         }
+
+        //Init RemoteConfig
+        RemoteConfigUtils.init()
     }
 }

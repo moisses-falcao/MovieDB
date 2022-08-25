@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.citmoviedatabase_mf.basefragment.BaseFragment
 import com.example.citmoviedatabase_mf.databinding.FragmentComingSoonBinding
-import com.example.citmoviedatabase_mf.models.MovieModel
+import com.ciandt.service.models.MovieModel
 import com.example.citmoviedatabase_mf.ui.nowplaying.NowPlayingViewModelStatus
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

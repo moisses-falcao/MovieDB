@@ -2,8 +2,8 @@ package com.example.citmoviedatabase_mf.ui.details.Casting
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.example.citmoviedatabase_mf.models.CastAndCrewModel
-import com.example.citmoviedatabase_mf.models.CastModel
+import com.ciandt.service.models.CastAndCrewModel
+import com.ciandt.service.models.CastModel
 import com.example.citmoviedatabase_mf.repository.casting.CastingRepository
 import com.example.citmoviedatabase_mf.repository.casting.CastingStatus
 import io.mockk.*

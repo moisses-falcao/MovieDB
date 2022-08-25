@@ -1,7 +1,7 @@
 package com.example.citmoviedatabase_mf.ui.nowplaying
 
 import androidx.lifecycle.*
-import com.example.citmoviedatabase_mf.models.MovieModel
+import com.ciandt.service.models.MovieModel
 import com.example.citmoviedatabase_mf.repository.nowplaying.NowPlayingRepository
 import com.example.citmoviedatabase_mf.repository.nowplaying.NowPlayingStatus
 import kotlinx.coroutines.flow.MutableStateFlow

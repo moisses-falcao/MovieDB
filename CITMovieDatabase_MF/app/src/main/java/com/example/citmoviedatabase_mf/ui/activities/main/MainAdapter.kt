@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.citmoviedatabase_mf.databinding.MovieModelBinding
 import com.example.citmoviedatabase_mf.ui.details.DetailsActivity
-import com.example.citmoviedatabase_mf.models.MovieModel
+import com.ciandt.service.models.MovieModel
 
 class MainAdapter(var movies: List<MovieModel>) : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 

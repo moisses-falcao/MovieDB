@@ -1,8 +1,8 @@
-package com.example.citmoviedatabase_mf.models
+package com.ciandt.service.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.citmoviedatabase_mf.models.GenreModel
+import com.ciandt.service.models.GenreModel
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "movies")

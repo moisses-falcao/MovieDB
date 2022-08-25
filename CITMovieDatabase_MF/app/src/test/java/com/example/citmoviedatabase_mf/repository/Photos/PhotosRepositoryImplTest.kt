@@ -1,7 +1,9 @@
 package com.example.citmoviedatabase_mf.repository.Photos
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
+import com.ciandt.service.apiservice.MovieDatabaseService
+import com.ciandt.service.models.PhotoModel
+import com.ciandt.service.models.SceneModel
 import com.example.citmoviedatabase_mf.models.*
 import io.mockk.coEvery
 import io.mockk.coVerify

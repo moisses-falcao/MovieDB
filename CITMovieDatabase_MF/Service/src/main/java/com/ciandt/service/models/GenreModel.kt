@@ -1,4 +1,4 @@
-package com.example.citmoviedatabase_mf.models
+package com.ciandt.service.models
 
 data class GenreModel(
     val id: Int,

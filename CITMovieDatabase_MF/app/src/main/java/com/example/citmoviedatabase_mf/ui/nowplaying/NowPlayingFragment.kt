@@ -1,6 +1,7 @@
 package com.example.citmoviedatabase_mf.ui.nowplaying
 
 import android.app.*
+import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
@@ -19,19 +20,26 @@ import com.example.citmoviedatabase_mf.constants.Constants.CHANNEL_ID
 import com.example.citmoviedatabase_mf.constants.Constants.HOUR_TO_SHOW_PUSH
 import com.example.citmoviedatabase_mf.constants.Constants.NOTIFICATION_ID
 import com.example.citmoviedatabase_mf.databinding.FragmentNowPlayingBinding
-import com.example.citmoviedatabase_mf.models.MovieModel
+import com.ciandt.service.models.MovieModel
 import com.example.citmoviedatabase_mf.notification.Notification
 import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.text.format.DateFormat
+import com.google.firebase.FirebaseApp
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import java.util.*
+import kotlin.coroutines.coroutineContext
 
 class NowPlayingFragment() : BaseFragment<FragmentNowPlayingBinding, NowPlayingViewModel>() {
 
     override val viewModel: NowPlayingViewModel by viewModel()
     private lateinit var adapter: NowPlayingAdapter
+    //private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun getViewBinging(
         inflater: LayoutInflater,
@@ -59,6 +67,8 @@ class NowPlayingFragment() : BaseFragment<FragmentNowPlayingBinding, NowPlayingV
 
         createNotificationChannel()
         scheduleNotification()
+
+        //firebaseAnalytics = Firebase.analytics
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -122,6 +132,13 @@ class NowPlayingFragment() : BaseFragment<FragmentNowPlayingBinding, NowPlayingV
             movieModel.title + " " + "adicionado à lista de favoritos com sucesso!",
             Toast.LENGTH_SHORT
         ).show()
+
+
+//        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM){
+//            param(FirebaseAnalytics.Param.ITEM_ID, movieModel.id.toString())
+//            param(FirebaseAnalytics.Param.ITEM_NAME, movieModel.title)
+//            param(FirebaseAnalytics.Param.CONTENT_TYPE, "movie")
+//        }
     }
 
     private fun disfavorMovie(movieModel: MovieModel) {

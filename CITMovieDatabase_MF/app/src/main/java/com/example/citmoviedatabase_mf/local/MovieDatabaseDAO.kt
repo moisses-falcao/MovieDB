@@ -1,7 +1,7 @@
 package com.example.citmoviedatabase_mf.local
 
 import androidx.room.*
-import com.example.citmoviedatabase_mf.models.MovieModel
+import com.ciandt.service.models.MovieModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao

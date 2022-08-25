@@ -1,8 +1,8 @@
 package com.example.citmoviedatabase_mf.repository.nowplaying
 
-import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
+import com.ciandt.service.apiservice.MovieDatabaseService
 import com.example.citmoviedatabase_mf.local.MovieDatabaseDAO
-import com.example.citmoviedatabase_mf.models.MovieModel
+import com.ciandt.service.models.MovieModel
 
 
 class NowPlayingRepositoryImpl(val movieDatabaseService: MovieDatabaseService, val movieDatabaseDAO: MovieDatabaseDAO) : NowPlayingRepository {

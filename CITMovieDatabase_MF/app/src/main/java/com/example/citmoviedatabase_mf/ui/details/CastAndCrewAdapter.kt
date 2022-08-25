@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.citmoviedatabase_mf.databinding.CastAndCrewModelBinding
-import com.example.citmoviedatabase_mf.models.CastAndCrewModel
+import com.ciandt.service.models.CastAndCrewModel
 
 class CastAndCrewAdapter(private val castAndCrewList: List<CastAndCrewModel>) : RecyclerView.Adapter<CastAndCrewAdapter.ViewHolder>() {
 

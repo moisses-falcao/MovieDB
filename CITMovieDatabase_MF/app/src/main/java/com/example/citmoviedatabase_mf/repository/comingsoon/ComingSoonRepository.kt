@@ -1,6 +1,6 @@
 package com.example.citmoviedatabase_mf.repository.comingsoon
 
-import com.example.citmoviedatabase_mf.models.MovieModel
+import com.ciandt.service.models.MovieModel
 import com.example.citmoviedatabase_mf.repository.nowplaying.NowPlayingStatus
 
 interface ComingSoonRepository {

@@ -1,6 +1,6 @@
 package com.example.citmoviedatabase_mf.repository.Photos
 
-import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
+import com.ciandt.service.apiservice.MovieDatabaseService
 import java.lang.Exception
 
 class PhotosRepositoryImpl(val movieDatabaseService: MovieDatabaseService) : PhotosRepository {

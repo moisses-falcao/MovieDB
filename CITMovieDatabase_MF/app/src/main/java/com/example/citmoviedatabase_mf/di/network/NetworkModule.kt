@@ -1,6 +1,6 @@
 package com.example.citmoviedatabase_mf.di
 
-import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
+import com.ciandt.service.apiservice.MovieDatabaseService
 import com.example.citmoviedatabase_mf.constants.Constants.BASE_URL
 import org.koin.core.qualifier.named
 import org.koin.dsl.module

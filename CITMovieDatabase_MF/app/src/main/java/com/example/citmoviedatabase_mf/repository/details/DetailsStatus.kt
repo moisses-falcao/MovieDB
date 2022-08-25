@@ -1,8 +1,8 @@
 package com.example.citmoviedatabase_mf.repository.details
 
-import com.example.citmoviedatabase_mf.models.CastModel
-import com.example.citmoviedatabase_mf.models.MovieDetailsModel
-import com.example.citmoviedatabase_mf.models.SceneModel
+import com.ciandt.service.models.CastModel
+import com.ciandt.service.models.MovieDetailsModel
+import com.ciandt.service.models.SceneModel
 
 sealed class DetailsStatus {
     object NotFound: DetailsStatus()

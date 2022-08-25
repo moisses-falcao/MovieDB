@@ -1,9 +1,9 @@
 package com.example.citmoviedatabase_mf.repository.nowplaying
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
-import com.example.citmoviedatabase_mf.models.MovieModel
-import com.example.citmoviedatabase_mf.models.Results
+import com.ciandt.service.apiservice.MovieDatabaseService
+import com.ciandt.service.models.MovieModel
+import com.ciandt.service.models.Results
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

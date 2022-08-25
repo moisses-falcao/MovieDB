@@ -2,8 +2,8 @@ package com.example.citmoviedatabase_mf.ui.details.photos
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.example.citmoviedatabase_mf.models.PhotoModel
-import com.example.citmoviedatabase_mf.models.SceneModel
+import com.ciandt.service.models.PhotoModel
+import com.ciandt.service.models.SceneModel
 import com.example.citmoviedatabase_mf.repository.Photos.PhotosRepository
 import com.example.citmoviedatabase_mf.repository.Photos.PhotosStatus
 import io.mockk.*

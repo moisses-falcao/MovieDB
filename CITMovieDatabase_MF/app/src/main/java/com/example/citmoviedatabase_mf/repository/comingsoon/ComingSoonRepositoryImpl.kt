@@ -1,8 +1,8 @@
 package com.example.citmoviedatabase_mf.repository.comingsoon
 
-import com.example.citmoviedatabase_mf.apiservice.MovieDatabaseService
+import com.ciandt.service.apiservice.MovieDatabaseService
 import com.example.citmoviedatabase_mf.local.MovieDatabaseDAO
-import com.example.citmoviedatabase_mf.models.MovieModel
+import com.ciandt.service.models.MovieModel
 import com.example.citmoviedatabase_mf.repository.nowplaying.NowPlayingStatus
 
 class ComingSoonRepositoryImpl(private val movieDatabaseService: MovieDatabaseService, private val movieDatabaseDAO: MovieDatabaseDAO) : ComingSoonRepository {

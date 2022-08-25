@@ -1,6 +1,6 @@
 package com.example.citmoviedatabase_mf.repository.main
 
-import com.example.citmoviedatabase_mf.models.MovieModel
+import com.ciandt.service.models.MovieModel
 import com.example.citmoviedatabase_mf.repository.nowplaying.NowPlayingStatus
 import kotlinx.coroutines.flow.Flow
 
